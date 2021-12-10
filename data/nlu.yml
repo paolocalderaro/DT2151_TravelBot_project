@@ -16,6 +16,7 @@ nlu:
     - goodevening
     - good afternoon
     - sup
+
 - intent: goodbye
   examples: |
     - good afternoon
@@ -39,6 +40,7 @@ nlu:
     - of course
     - that sounds good
     - correct
+
 - intent: deny
   examples: |
     - no
@@ -48,6 +50,7 @@ nlu:
     - don't like that
     - no way
     - not really
+
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -55,7 +58,7 @@ nlu:
     - am I talking to a bot?
     - am I talking to a human?
 
-- intent: inform
+- intent: inform_city
   examples: |
     - I want to plan a trip in [Stockholm](city)
     - I am travelling to [Paris](city)
@@ -64,5 +67,16 @@ nlu:
     - [Stockholm](city)
     - [Rome](city)
     - [Paris](city)
+    - trip to [bari](city)
 
-    
+# lookup table for the city examples
+- lookup: city
+  examples: |
+    - Rome
+    - Paris
+    - berlin
+    - london
+    - stockholm
+    - barcelona
+    - rome
+    - madrid

@@ -2,37 +2,32 @@ version: '2.0'
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
-
 intents:
 - greet
+- bot_challenge
+- inform_city
 - goodbye
 - affirm
 - deny
-- bot_challenge
-- inform
-
 entities:
-  - city
-  - category
-
-  
-actions:
-- utter_did_that_help
-- utter_goodbye
-- utter_greet
-- utter_ask_city
-- utter_iamabot
-
-
-
-
-
+- category
+- city
+- subcategory
+slots:
+  city:
+    type: any
+    influence_conversation: false
+  category:
+    type: any
+    influence_conversation: false
+  subcategory:
+    type: any
+    influence_conversation: false
 responses:
   utter_ask_city:
   - text: are you planning a trip?
   - text: which city you want to visit?
   - text: In which city are you planning to go?
-  
   utter_greet:
   - text: Hey! How are you?
   utter_did_that_help:
@@ -41,3 +36,13 @@ responses:
   - text: Bye
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
+  utter_feedback_city:
+  - text: '{city} , nice one! First I need to ask you more info.'
+  - text: Nice choice! I would like to ask you more about what you want to visit in {city}.
+actions:
+- utter_ask_city
+- utter_did_that_help
+- utter_feedback_city
+- utter_goodbye
+- utter_greet
+- utter_iamabot

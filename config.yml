@@ -18,12 +18,14 @@ pipeline:
   - name: "DucklingEntityExtractor"
   # url of the running duckling server
     url: "http://localhost:8000"
-    dimension: ['city', 'category']
+    dimension: ['city', 'category', 'subcategory']
 
     
   - name: DIETClassifier
     epochs: 100
     constrain_similarities: true
+
+  
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100
