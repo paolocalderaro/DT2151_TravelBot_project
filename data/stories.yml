@@ -13,6 +13,7 @@ stories:
   steps:
   - intent: greet
   - action: utter_greet
+  - action: utter_ask_city
   - intent: inform_city
   - action: utter_ask_city
   - intent: deny
@@ -20,10 +21,16 @@ stories:
 
 
 
-- story: ask_city
+- story: ask_info
   steps:
   - intent: inform_city
   - action: utter_feedback_city
+  - action: utter_ask_category
+  - intent: inform_category
+  - action: utter_feedback_category
+
+
+
 
 
 # interactive stories added by rasa interactive train
@@ -31,11 +38,11 @@ stories:
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: bot_challenge
-  - action: utter_iamabot
+  - action: utter_ask_city
   - intent: inform_city
     entities:
     - city: bari
   - slot_was_set:
     - city: bari
   - action: utter_feedback_city
+  - action: utter_ask_category

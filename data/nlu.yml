@@ -69,6 +69,23 @@ nlu:
     - [Paris](city)
     - trip to [bari](city)
 
+- intent: inform_category
+  examples: |
+    - I want to see [museum](category)
+    - I want to see [park](category)
+    - I want to see [cafe](category)
+    - I want to go [shopping](category)
+    - [museum](category) and [cafe](category)
+    - [museum](category)
+    - [cafe](category)
+    - [shopping](category)
+    - [park](category)
+    - I would like to see [museum](category)
+    - I want to visit [park](category)
+
+
+    
+
 # lookup table for the city examples
 - lookup: city
   examples: |
