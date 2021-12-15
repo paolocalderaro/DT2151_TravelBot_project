@@ -4,9 +4,9 @@ session_config:
   carry_over_slots_to_new_session: true
 intents:
 - greet
-- bot_challenge
 - inform_city
 - inform_category
+- bot_challenge
 - goodbye
 - affirm
 - deny
@@ -26,35 +26,26 @@ slots:
     influence_conversation: false
 responses:
   utter_ask_city:
-  - text: are you planning a trip?  🛫 
-  - text: which city you want to visit?  🛫 
-  - text: In which city are you planning to go?  🛫 
+  - text: are you planning a trip?  🛫
+  - text: which city you want to visit?  🛫
+  - text: In which city are you planning to go?  🛫
   utter_greet:
-  - text: Hey! Nice to meet you, my name is TravelBot  😎 
+  - text: Hey! Nice to meet you, my name is TravelBot  😎
   utter_did_that_help:
   - text: Did that help you?
   utter_goodbye:
   - text: Bye
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
-  utter_feedback_city:
-  - text: '{city} , nice one! First I need to ask you more info  🤔 '
-  - text: Nice choice! I would like to ask you more about what you want to visit in {city}  🤔 
-
   utter_ask_category:
   - text: 'What would you like to visit? Park, museum, caffe or shopping points? 🗺 '
   - text: 'Choose between Park, museum, caffe or shopping points and I will do my best to help you!  🗺 '
-
-  utter_feedback_category:
-  - text: '{category} nice choice! let me look for some good ones! 🚏'
-  - text: 'I will select the best {category} in {city} , give me few seconds! 🚏'
-
 actions:
+- action_remember_city
+- action_search_POI
+- utter_ask_category
 - utter_ask_city
 - utter_did_that_help
-- utter_feedback_city
-- utter_ask_category
-- utter_feedback_category
 - utter_goodbye
 - utter_greet
 - utter_iamabot

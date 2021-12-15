@@ -11,3 +11,18 @@ rules:
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
+
+
+- rule: search for POI after we got city and category
+  steps:
+  - intent: inform_category
+  - action: action_search_POI
+
+
+# - rule: save the city in order to make the bot remember for it
+#   steps:
+#   - intent: inform_city
+#   - action: action_remember_city
+
+
+

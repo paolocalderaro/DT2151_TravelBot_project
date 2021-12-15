@@ -1,48 +1,52 @@
 version: "2.0"
 
 stories:
-
-- story: first interaction
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - action: utter_ask_city
-
-  
-- story: negative path 
-  steps:
-  - intent: greet
-  - action: utter_greet
-  - action: utter_ask_city
-  - intent: inform_city
-  - action: utter_ask_city
-  - intent: deny
-  - action: utter_goodbye
-
-
-
-- story: ask_info
-  steps:
-  - intent: inform_city
-  - action: utter_feedback_city
-  - action: utter_ask_category
-  - intent: inform_category
-  - action: utter_feedback_category
+# - story: ask_info
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - action: utter_ask_city
+#   - intent: inform_city
+#   - action: action_remember_city
+#   - action: utter_ask_category
+#   - intent: inform_category
+#   - action: action_search_POI
 
 
 
 
 
 # interactive stories added by rasa interactive train
-- story: interactive_story_1
+
+# - story: interactive_story_1
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - action: utter_ask_city
+#   - intent: inform_city
+#     entities:
+#     - city: stockholm
+#   - slot_was_set:
+#     - city: stockholm
+#   - action: action_remember_city
+
+- story: interactive_story_2
   steps:
   - intent: greet
   - action: utter_greet
   - action: utter_ask_city
   - intent: inform_city
     entities:
-    - city: bari
+    - city: stockholm
   - slot_was_set:
-    - city: bari
-  - action: utter_feedback_city
+    - city: stockholm
+  - action: action_remember_city
+  - slot_was_set:
+    - city: stockholm
   - action: utter_ask_category
+  - intent: inform_category
+    entities:
+    - category: museum
+  - slot_was_set:
+    - category: museum
+  - action: action_search_POI
