@@ -61,7 +61,7 @@ class ActionSerchPOI(Action):
 
         # retrieve category
         category_POI = city_POI[str(current_category)]
-        if not city_POI:            
+        if not category_POI:            
             msg = f"sorry, I don't know any good {current_category} in {current_city} 😅"
             dispatcher.utter_message(text=msg)
             return [SlotSet("city",current_city)]
