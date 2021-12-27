@@ -11,11 +11,16 @@
 > Make sure that the paths to ngrok and gactions are added to the PATH environment variable
 
 #### Prepare the environment
+
 Open the CLI from the path of the project (same location of **requirements.txt**)
-	conda create -n "rasa_env" --file requirements.txt
-	conda activate rasa_env
-	cd scripts
-	python run_servers.py
+
+> conda create -n "rasa_env" --file requirements.txt 
+> 
+> conda activate rasa_env
+> 
+> cd scripts	
+> 
+> python run_servers.py
 
 
 
