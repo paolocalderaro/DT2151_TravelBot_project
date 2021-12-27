@@ -22,5 +22,7 @@ Open the CLI from the path of the project (same location of **requirements.txt**
 > 
 > python run_servers.py
 
+Then, you can finally open you Google Assistant console and test your project.
+
 
 
