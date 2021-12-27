@@ -1,2 +1,4 @@
 ./models/
 story_graph.dot
+*.txt
+*.gz

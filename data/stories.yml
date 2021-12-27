@@ -33,14 +33,10 @@ stories:
 - story: interactive_story_2
   steps:
   - intent: greet
-  - action: utter_greet
   - action: utter_ask_city
   - intent: inform_city
     entities:
     - city: stockholm
-  - slot_was_set:
-    - city: stockholm
-  - action: action_remember_city
   - slot_was_set:
     - city: stockholm
   - action: utter_ask_category
