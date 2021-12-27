@@ -2,3 +2,5 @@
 story_graph.dot
 *.txt
 *.gz
+*.data
+.idea
