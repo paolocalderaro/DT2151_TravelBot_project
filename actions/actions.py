@@ -16,6 +16,21 @@ import os, urllib.parse, requests
 import logging
 
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# create console handler and set level to debug
+ch = logging.FileHandler(filename="log_actions.txt")
+ch.setLevel(logging.DEBUG)
+
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
+# add formatter to ch
+ch.setFormatter(formatter)
+
+# add ch to logger
+logger.addHandler(ch)
+
 
 # dumb db, key: POI value: description
 POI_db = {
@@ -36,7 +51,7 @@ class ActionSearchPlace_w_Google(Action):
         # retrieve slot values
         city = tracker.get_slot('city')
         category = tracker.get_slot('category')
-        print(f"city: {city}, category: {category}")
+        logger.debug(f"city: {city}, category: {category}")
         # retrieve google api key
         # with open("./ga_credentials.yml", 'r') as ymlfile:
         #     cfg = yaml.load(ymlfile)
@@ -66,9 +81,8 @@ class ActionSearchPlace_w_Google(Action):
 
         place = requests.request("GET", url, headers=headers, data=payload)
 
-        print(place.text)
-        print(place)
-
+        logger.debug(place.text)
+        logger.debug(place)
         data = place.json()
         # TODO - change the code from here.
         # TODO - redirect output to log file
