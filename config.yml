@@ -7,9 +7,12 @@ pipeline:
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
   - name: WhitespaceTokenizer
-  - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
+  - name: RegexEntityExtractor
+    case_sensitive: false
+    use_lookup_tables: true
+    use_regexes: true
   - name: CountVectorsFeaturizer
     analyzer: char_wb
     min_ngram: 1
