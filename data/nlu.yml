@@ -65,6 +65,7 @@ nlu:
     - [Paris](city)
     - trip to [bari](city)
     - [stockholm](city)
+    - [rome](city)
 - intent: inform_category
   examples: |
     - I want to see [museum](category)

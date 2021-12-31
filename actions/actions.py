@@ -56,6 +56,8 @@ class ActionSearchPlace_w_Google(Action):
         # with open("./ga_credentials.yml", 'r') as ymlfile:
         #     cfg = yaml.load(ymlfile)
         key = os.getenv('GOOGLE_PLACES_API')
+        # TODO - be able to read API key from env
+        key = 'AIzaSyAHRueeF5aHEBuCw_IV03x4hs-e5ZnqwWc'
         if key is None:
             raise KeyError("Google API not found. Set it as environment variable")
 
@@ -95,6 +97,9 @@ class ActionSearchPlace_w_Google(Action):
             name = data['results'][idx]['name']
             # rating = i['rating']
             # address = i['vicinity']
+
+        speech = "I found a {} in {} called {} based on your specified parameters.".format(category, city, name)
+        dispatcher.utter_message(speech)  # send the response back to the user
 
         speech = "I found a {} in {} called {} based on your specified parameters.".format(category, city, name)
         dispatcher.utter_message(speech)  # send the response back to the user

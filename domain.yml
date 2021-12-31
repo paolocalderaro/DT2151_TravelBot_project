@@ -3,32 +3,36 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
+- inform_category
+- greet
+- stop
+- inform_city
 - affirm
 - bot_challenge
 - deny
 - goodbye
-- greet
-- inform_category
-- inform_city
 entities:
 - category
 - city
 - subcategory
 slots:
   city:
-    type: any
+    type: text
+    auto_fill: false
     influence_conversation: false
   category:
-    type: any
+    type: text
+    auto_fill: false
     influence_conversation: false
   subcategory:
-    type: any
+    type: text
+    auto_fill: false
     influence_conversation: false
 responses:
   utter_ask_city:
-  - text: are you planning a trip?  🛫
-  - text: which city you want to visit?  🛫
-  - text: In which city are you planning to go?  🛫
+  - text: Hey! Nice to meet you, my name is TravelBot 😎 In which city are you planning a trip?  🛫
+  - text: Hey! Nice to meet you, my name is TravelBot 😎 Which city you want to visit?  🛫
+  - text: Hey! Nice to meet you, my name is TravelBot 😎 In which city are you planning to go?  🛫
   utter_greet:
   - text: Hey! Nice to meet you, my name is TravelBot  😎
   utter_did_that_help:
@@ -38,8 +42,8 @@ responses:
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
   utter_ask_category:
-  - text: 'What would you like to visit? Park, museum, caffe or shopping points? 🗺 '
-  - text: 'Choose between Park, museum, caffe or shopping points and I will do my best to help you!  🗺 '
+  - text: What would you like to visit? Park, museum, caffe or shopping points? 🗺
+  - text: Choose between Park, museum, caffe or shopping points and I will do my best to help you!  🗺
 actions:
 - action_remember_city
 - action_search_POI
@@ -49,3 +53,12 @@ actions:
 - utter_goodbye
 - utter_greet
 - utter_iamabot
+forms:
+  POI_form:
+    required_slots:
+      city:
+      - type: from_entity
+        entity: city
+      category:
+      - type: from_entity
+        entity: category

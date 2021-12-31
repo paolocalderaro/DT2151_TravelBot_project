@@ -30,19 +30,39 @@ stories:
 #     - city: stockholm
 #   - action: action_remember_city
 
-- story: interactive_story_2
+#- story: interactive_story_2
+#  steps:
+#  - intent: greet
+#  - action: utter_ask_city
+#  - intent: inform_city
+#    entities:
+#    - city: stockholm
+#  - slot_was_set:
+#    - city: stockholm
+#  - action: utter_ask_category
+#  - intent: inform_category
+#    entities:
+#    - category: museum
+#  - slot_was_set:
+#    - category: museum
+#  - action: action_search_POI
+
+- story: interactive_story_1
   steps:
   - intent: greet
-  - action: utter_ask_city
-  - intent: inform_city
-    entities:
-    - city: stockholm
+  - action: POI_form
+  - active_loop: POI_form
   - slot_was_set:
-    - city: stockholm
-  - action: utter_ask_category
-  - intent: inform_category
-    entities:
+    - requested_slot: city
+  - slot_was_set:
+    - city:
+      - rome
+  - slot_was_set:
+    - requested_slot: category
+  - slot_was_set:
     - category: museum
   - slot_was_set:
-    - category: museum
+    - requested_slot: null
+  - active_loop: null
   - action: action_search_POI
+  - intent: stop
