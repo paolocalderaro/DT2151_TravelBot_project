@@ -9,6 +9,7 @@ pipeline:
   - name: WhitespaceTokenizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
+  # extractor able to readca look-Up table. Drawback: it recognizes only entities from training data
   - name: RegexEntityExtractor
     case_sensitive: false
     use_lookup_tables: true
@@ -23,10 +24,12 @@ pipeline:
     url: "http://localhost:8000"
     dimension: ['city', 'category', 'subcategory']
 
-    
-#  - name: DIETClassifier
-#    epochs: 100
-#    constrain_similarities: true
+
+  # we already have the regex entity extractor for entity recognition, we disable it in DIET
+  - name: DIETClassifier
+    epochs: 100
+    constrain_similarities: true
+    entity_recognition: false
 
   
   - name: EntitySynonymMapper
@@ -45,7 +48,7 @@ policies:
 # # No configuration for policies was provided. The following default policies were used to train your model.
 # # If you'd like to customize them, uncomment and adjust the policies.
 # # See https://rasa.com/docs/rasa/policies for more information.
-#   - name: MemoizationPolicy
+   - name: MemoizationPolicy
    - name: RulePolicy
 #   - name: UnexpecTEDIntentPolicy
 #     max_history: 5

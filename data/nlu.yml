@@ -39,6 +39,18 @@ nlu:
     - of course
     - that sounds good
     - correct
+    - ok
+    - yes please
+    - why not
+    - yes please proceed
+    - yes i would love to
+    - ya
+    - ya carry on with booking
+    - it would be amazing
+    - oh great, please do it for me
+    - thanks
+    - thanks a lot
+    - yes thanks a lot
 - intent: deny
   examples: |
     - no
@@ -48,6 +60,7 @@ nlu:
     - don't like that
     - no way
     - not really
+    - no thanks
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -66,6 +79,11 @@ nlu:
     - trip to [bari](city)
     - [stockholm](city)
     - [rome](city)
+    - I want to visit [milan](city)
+    - I want to visit [rome](city)
+    - I want to visit [paris](city) thanks
+    - [milan](city)
+    - [rome](city)
 - intent: inform_category
   examples: |
     - I want to see [museum](category)
@@ -79,4 +97,16 @@ nlu:
     - [park](category)
     - I would like to see [museum](category)
     - I want to visit [park](category)
-    - [museum](category)
+    - looking for some [museum](category)
+    - I want to visit [caffe](category)
+    - yes some [museum](category)
+    - I would like to visit some [museum](category) too
+    - some [museum](category)
+    - [park](category)
+- intent: inform
+  examples: |
+    - I want to see [museum](category) in [Stockholm](city)
+    - I want to see [park](category) in [Stockholm](city)
+    - I want to see [cafe](category) in [Stockholm](city)
+    - I want to [see](city) [cool](city) [park](category) in [stockholm](city)
+    - I want to visit some [museum](category) in [stockholm](city)

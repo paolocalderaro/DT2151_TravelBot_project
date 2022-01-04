@@ -1,53 +1,8 @@
 version: "2.0"
 
 stories:
-# - story: ask_info
-#   steps:
-#   - intent: greet
-#   - action: utter_greet
-#   - action: utter_ask_city
-#   - intent: inform_city
-#   - action: action_remember_city
-#   - action: utter_ask_category
-#   - intent: inform_category
-#   - action: action_search_POI
-
-
-
-
-
-# interactive stories added by rasa interactive train
-
-# - story: interactive_story_1
-#   steps:
-#   - intent: greet
-#   - action: utter_greet
-#   - action: utter_ask_city
-#   - intent: inform_city
-#     entities:
-#     - city: stockholm
-#   - slot_was_set:
-#     - city: stockholm
-#   - action: action_remember_city
-
-#- story: interactive_story_2
-#  steps:
-#  - intent: greet
-#  - action: utter_ask_city
-#  - intent: inform_city
-#    entities:
-#    - city: stockholm
-#  - slot_was_set:
-#    - city: stockholm
-#  - action: utter_ask_category
-#  - intent: inform_category
-#    entities:
-#    - category: museum
-#  - slot_was_set:
-#    - category: museum
-#  - action: action_search_POI
-
-- story: interactive_story_1
+# the first set of interaction, then the conversation can branch
+- story: first iteration
   steps:
   - intent: greet
   - action: POI_form
@@ -55,14 +10,160 @@ stories:
   - slot_was_set:
     - requested_slot: city
   - slot_was_set:
-    - city:
-      - rome
+    - city: rome
   - slot_was_set:
     - requested_slot: category
   - slot_was_set:
-    - category: museum
+    - category: park
   - slot_was_set:
     - requested_slot: null
   - active_loop: null
   - action: action_search_POI
-  - intent: stop
+  - slot_was_set:
+    - city: rome
+  - slot_was_set:
+    - category: park
+  - checkpoint: first_iter
+
+# starts from: "you need to look at more POI with same params?"
+# answer: yes
+#- story: first iter + affirm
+#  steps:
+#  - checkpoint: first_iter
+#  - intent: affirm
+#  - action: action_search_POI
+#  - slot_was_set:
+#    - city: rome
+#  - slot_was_set:
+#    - category: park
+#  - intent: deny
+#  - action: utter_ask_more
+#  - action: action_reset_slots
+#  - intent: affirm
+#  - action: POI_form
+#  - active_loop: POI_form
+#  - slot_was_set:
+#    - requested_slot: city
+#  - slot_was_set:
+#    - category: museum
+#  - slot_was_set:
+#    - city: stockholm
+#  - slot_was_set:
+#    - requested_slot: null
+#  - active_loop: null
+#  - action: action_search_POI
+#  - slot_was_set:
+#    - city: stockholm
+#  - slot_was_set:
+#    - category: museum
+#  - intent: deny
+#  - action: utter_ask_more
+#  - action: action_reset_slots
+#  - intent: deny
+#  - action: utter_goodbye
+
+
+# loop to query multiple POI (until the intent is affirm)
+- story: first iteration + affirm
+  steps:
+  - checkpoint: first_iter
+  - intent: affirm
+  - action: action_search_POI
+  - slot_was_set:
+    - city: rome
+  - slot_was_set:
+    - category: park
+  - checkpoint: first_iter
+
+# break from the POI loop when the intent is deny
+- story: first iter + deny
+  steps:
+  - checkpoint: first_iter
+  - intent: deny
+  - action: utter_ask_more
+  - action: action_reset_slots
+  - checkpoint: slot_resetted
+
+
+- story: slot resetted + deny
+  steps:
+  - checkpoint: slot_resetted
+  - intent: deny
+  - action: utter_goodbye
+
+
+- story: slot resetted + affirm
+  steps:
+  - checkpoint: slot_resetted
+  - intent: affirm
+  - action: POI_form
+  - active_loop: POI_form
+  - slot_was_set:
+    - requested_slot: city
+  - slot_was_set:
+    - city: rome
+  - slot_was_set:
+    - requested_slot: category
+  - slot_was_set:
+    - category: park
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_search_POI
+  - slot_was_set:
+    - city: rome
+  - slot_was_set:
+    - category: park
+  - checkpoint: first_iter
+
+
+
+#- story: search another POI with same settings
+#  steps:
+#  - action: action_search_POI
+#  - slot_was_set:
+#    - city: rome
+#  - slot_was_set:
+#    - category: park
+#  - intent: affirm
+#  - action: action_search_POI
+#  - slot_was_set:
+#    - city: rome
+#  - slot_was_set:
+#    - category: park
+
+#- story: deny search another POI, then exit
+#  steps:
+#  - action: action_search_POI
+#  - slot_was_set:
+#      - city: stockholm
+#  - slot_was_set:
+#      - category: museum
+#  - intent: deny
+#  - action: utter_ask_more
+#  - action: action_reset_slots
+#  - intent: deny
+#  - action: utter_goodbye
+
+
+- story: search POI with other params
+  steps:
+   - action: utter_ask_more
+   - action: action_reset_slots
+   - intent: affirm
+   - action: POI_form
+   - active_loop: POI_form
+   - slot_was_set:
+       - requested_slot: city
+   - slot_was_set:
+       - city: rome
+   - slot_was_set:
+       - requested_slot: category
+   - slot_was_set:
+       - category: park
+   - slot_was_set:
+       - requested_slot: null
+   - active_loop: null
+   - action: action_search_POI
+
+

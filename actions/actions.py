@@ -9,11 +9,15 @@
 from typing import Any, Text, Dict, List
 
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, AllSlotsReset, FollowupAction
 from rasa_sdk.executor import CollectingDispatcher
 import random
 import os, urllib.parse, requests
 import logging
+
+from rasa_sdk import Tracker, FormValidationAction
+from rasa_sdk.types import DomainDict
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -40,6 +44,41 @@ POI_db = {
     'amsterdam':{'museum':{},'park':{}, 'caffe':{},'shopping':{}},
 
 }
+
+
+
+# class ValidateQueryAgainForm(Action):
+#     def name(self) -> Text:
+#         return "validate_POI_form"
+#
+#     def run(self, dispatcher, tracker, domain):
+#         query_again = tracker.get_slot('query_again')
+#         city = tracker.get_slot('city')
+#         category = tracker.get_slot('category')
+#
+#         if query_again == False:
+#             return[SlotSet("go_next", True)]
+#         elif (query_again == True or None) and city is not None and category is not None:
+#
+
+
+# action used to clear all slots and start a new query from zero
+class Action_reset_all_slots(Action):
+    def name(self) -> Text:
+        return "action_reset_slots"
+    def run(self, dispatcher, tracker, domain):
+        return [AllSlotsReset()]
+
+
+# keep the current city, update the category
+class Action_reset_category(Action):
+    def name(self) -> Text:
+        return "action_reset_category"
+
+    def run(self, dispatcher, tracker, domain):
+        return [SlotSet("category", None)]
+
+
 
 
 class ActionSearchPlace_w_Google(Action):
@@ -101,8 +140,9 @@ class ActionSearchPlace_w_Google(Action):
         speech = "I found a {} in {} called {} based on your specified parameters.".format(category, city, name)
         dispatcher.utter_message(speech)  # send the response back to the user
 
-        speech = "I found a {} in {} called {} based on your specified parameters.".format(category, city, name)
+        speech = "Do you want to look for other places with the same attributes? ".format(category, city, name)
         dispatcher.utter_message(speech)  # send the response back to the user
+
         return [SlotSet('city', city), SlotSet('category', category)]  # set returned details as slots
 
 

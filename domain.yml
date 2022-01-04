@@ -3,13 +3,14 @@ session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
 intents:
+- inform_city
+- deny
+- affirm
+- inform
 - inform_category
 - greet
 - stop
-- inform_city
-- affirm
 - bot_challenge
-- deny
 - goodbye
 entities:
 - category
@@ -24,10 +25,6 @@ slots:
     type: text
     auto_fill: false
     influence_conversation: false
-  subcategory:
-    type: text
-    auto_fill: false
-    influence_conversation: false
 responses:
   utter_ask_city:
   - text: Hey! Nice to meet you, my name is TravelBot 😎 In which city are you planning a trip?  🛫
@@ -35,8 +32,6 @@ responses:
   - text: Hey! Nice to meet you, my name is TravelBot 😎 In which city are you planning to go?  🛫
   utter_greet:
   - text: Hey! Nice to meet you, my name is TravelBot  😎
-  utter_did_that_help:
-  - text: Did that help you?
   utter_goodbye:
   - text: Bye
   utter_iamabot:
@@ -44,12 +39,20 @@ responses:
   utter_ask_category:
   - text: What would you like to visit? Park, museum, caffe or shopping points? 🗺
   - text: Choose between Park, museum, caffe or shopping points and I will do my best to help you!  🗺
+  utter_ask_query_again:
+  - text: you need more help? 🗺
+  utter_ask_more:
+  - text: Did that help you? You want to visit other places?
+  - text: Do you want to visit other places?
+  - text: Do you need any more help?
 actions:
 - action_remember_city
+- action_reset_category
+- action_reset_slots
 - action_search_POI
 - utter_ask_category
 - utter_ask_city
-- utter_did_that_help
+- utter_ask_more
 - utter_goodbye
 - utter_greet
 - utter_iamabot

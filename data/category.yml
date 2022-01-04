@@ -1,0 +1,10 @@
+nlu:
+  - lookup: category
+    examples: |
+      - park
+      - paerk
+      - parks
+      - park
+      - museum
+      - museums
+      - shopping point
