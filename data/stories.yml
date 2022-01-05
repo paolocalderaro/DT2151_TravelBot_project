@@ -5,6 +5,7 @@ stories:
 - story: first iteration
   steps:
   - intent: greet
+  - action: utter_greet
   - action: POI_form
   - active_loop: POI_form
   - slot_was_set:

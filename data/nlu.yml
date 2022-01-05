@@ -100,7 +100,7 @@ nlu:
     - I want to visit [rome](city)
     - I want to visit [paris](city) thanks
     - [milan](city)
-    - [rome](city)
+    - [Berlin](city)[Berlin](city)
 - intent: inform_category
   examples: |
     - I want to see [museum](category)
@@ -119,7 +119,6 @@ nlu:
     - yes some [museum](category)
     - I would like to visit some [museum](category) too
     - some [museum](category)
-    - [park](category)
 - intent: ask_more_suggestions
   examples: |
     - Can you give me more suggestions?

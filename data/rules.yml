@@ -17,11 +17,11 @@ rules:
   - action: utter_ask_more
   - action: action_reset_slots
 
-
 # rule to activate the POI_form needed to make sure that both city and category are given
 - rule: activate POI form
   steps:
       - intent: greet   # intent that triggers form activation
+      - action: utter_greet
       - action: POI_form     # run the form
       - active_loop: POI_form # this form is active
 
@@ -45,19 +45,19 @@ rules:
 - rule: User requires another suggestion. Bot asks for category
   steps:
   - intent: ask_more_suggestions
-  - action: action_ask_category
+  - action: utter_ask_category
 
 - rule: Ask category if user want more suggestions (intent affirm)
   steps:
   - action: utter_more_suggestions
   - intent: affirm
-  - action: action_ask_category
+  - action: utter_ask_category
 
 - rule: Ask category if user want more suggestions (intent thanks)
   steps:
   - action: utter_more_suggestions
   - intent: thanks
-  - action: action_ask_category
+  - action: utter_ask_category
 
 
 #- rule: chain POI form with query again form

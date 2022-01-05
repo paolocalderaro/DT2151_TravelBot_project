@@ -26,10 +26,8 @@ from langdetect import detect
 from deep_translator import GoogleTranslator
 from bs4 import BeautifulSoup
 
-
 from rasa_sdk import Tracker, FormValidationAction
 from rasa_sdk.types import DomainDict
-
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -49,7 +47,6 @@ category_id_map = json.load(open(".\\data\\subcategory_map_fsq.json", "r"))
 category_entity_map = json.load(open(".\\data\\category_map.json"))
 
 
-
 def initialize_map():
     poi_by_category = {}
     for category in category_entity_map.keys():
@@ -61,7 +58,6 @@ def initialize_map():
 
 
 poi_by_category = initialize_map()
-
 
 
 class ActionAskCategory(Action):
@@ -96,6 +92,7 @@ class ActionAskCategory(Action):
                 SlotSet('category', None),
                 SlotSet('city', city),
                 SlotSet('subcategory', tracker.get_slot('subcategory'))]
+
 
 #
 # class ActionAskSomethingCLose(Action):
@@ -181,7 +178,6 @@ class ActionPriceRange(Action):
         return utterance
 
 
-
 # class ValidateQueryAgainForm(Action):
 #     def name(self) -> Text:
 #         return "validate_POI_form"
@@ -201,6 +197,7 @@ class ActionPriceRange(Action):
 class Action_reset_all_slots(Action):
     def name(self) -> Text:
         return "action_reset_slots"
+
     def run(self, dispatcher, tracker, domain):
         return [AllSlotsReset()]
 
@@ -212,8 +209,6 @@ class Action_reset_category(Action):
 
     def run(self, dispatcher, tracker, domain):
         return [SlotSet("category", None)]
-
-
 
 
 class ActionSearchPlace_w_Google(Action):
@@ -264,6 +259,7 @@ class ActionSearchPlace_w_Google(Action):
         return [SlotSet('city', city), SlotSet('category', category),
                 SlotSet('subcategory', subcategory)]  # set returned details as slots
 
+
 def google_search_wrapper(city, category, conversation_id, use_old_search=True, ll=None, exclude_place_ids=[]):
     data_file_folder = f".\\conversations\\{conversation_id}"
     try:
@@ -274,16 +270,18 @@ def google_search_wrapper(city, category, conversation_id, use_old_search=True, 
     if key is None:
         logger.error("GOOGLE_PLACES_API not found. Set it as environment variable")
         exit(1)
-    poi = google_place_search(city, category, key, os.path.join(data_file_folder, "places_google.json"), use_old_search, ll, exclude_place_ids)
+    poi = google_place_search(city, category, key, os.path.join(data_file_folder, "places_google.json"), use_old_search,
+                              ll, exclude_place_ids)
     place_id = poi['place_id']
     poi_details = google_place_details(place_id, key, os.path.join(data_file_folder, "place_details_google.json"))
     photo_reference = poi_details['photos'][0]['photo_reference'] if isinstance(poi['photos'], list) else \
-            None
+        None
     google_maps_url = poi_details['url'] if 'url' in poi_details.keys() else None
     # description = google_extract_description(google_maps_url)
     photo = google_photo_search(photo_reference=photo_reference, key=key)
     add_poi_to_category(poi_details, category, "GOOGLE")
     return poi_details, photo
+
 
 def google_place_search(city, category, key, data_file_path, use_old_search=True, ll=None, exclude_place_ids=[]):
     url = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
@@ -316,6 +314,7 @@ def google_place_search(city, category, key, data_file_path, use_old_search=True
 
     return results[0]
 
+
 def google_photo_search(photo_reference, key):
     if photo_reference is None:
         return None
@@ -336,6 +335,7 @@ def google_photo_search(photo_reference, key):
         return None
     return img
 
+
 def google_place_details(place_id, key, data_file_path):
     url = "https://maps.googleapis.com/maps/api/place/details/json?"
     params = {
@@ -347,7 +347,7 @@ def google_place_details(place_id, key, data_file_path):
     response = requests.get(url)
     data = response.json()
     #  len(data['result'])!=1 since this api request must return the details of ONE POI (the one specified by place_id)
-    if response.status_code != 200 or len(data['result'])!=1:
+    if response.status_code != 200 or len(data['result']) != 1:
         logger.error("GOOGLE DID NOT PROVIDE ANY DETAILS FOR THE SPECIFIED PLACE")
         logger.debug(f"Place id: {place_id}"
                      f"Response json: {data}"
@@ -355,6 +355,7 @@ def google_place_details(place_id, key, data_file_path):
         return None
     json.dump(data, open(data_file_path, "w"), indent=4, sort_keys=True)
     return data['result']
+
 
 def add_poi_to_category(poi, category, api="GOOGLE"):
     api.upper()
@@ -370,7 +371,7 @@ def add_poi_to_category(poi, category, api="GOOGLE"):
             "format": api,
             "id": poi['place_id'],
             "name": poi['name'],
-            "location": poi['geometry']['location'], # dictionary: {"lat": <value>, "lng": <value>}
+            "location": poi['geometry']['location'],  # dictionary: {"lat": <value>, "lng": <value>}
             "photo_reference": photo_reference,
             "opening_hours": poi['opening_hours'],
             "neighborhood": neighborhood,
@@ -384,10 +385,11 @@ def add_poi_to_category(poi, category, api="GOOGLE"):
             "lat": poi['geocodes']['main']['latitude'],
             "lng": poi['geocodes']['main']['longitude']
         }
-        photo_reference = poi['photos'][0]['prefix']+"original"+poi['photos'][0]['suffix'] if \
-            'photos' in poi.keys() and (poi['photos'])>0 else None
+        photo_reference = poi['photos'][0]['prefix'] + "original" + poi['photos'][0]['suffix'] if \
+            'photos' in poi.keys() and (poi['photos']) > 0 else None
         neighborhood = poi['location']['neighborhood'][0] if 'location' in poi.keys() and \
-            'neighborhoood' in poi['location'].keys() and len(poi['location']['neighrborhood'])>0 else None
+                                                             'neighborhoood' in poi['location'].keys() and len(
+            poi['location']['neighrborhood']) > 0 else None
         poi_formatted = {
             "format": api,
             "id": poi['fsq_id'],
@@ -402,6 +404,7 @@ def add_poi_to_category(poi, category, api="GOOGLE"):
         poi_by_category['all'].append(poi_formatted)
         poi_by_category['all_fsq_id'].append(poi['placfsq_id'])
     return poi_formatted
+
 
 def foursquare_place_search(city, category, subcategory, logger,
                             conversation_id, category_id=None, sort='rating', ll=None, use_old_search=True,
@@ -521,7 +524,7 @@ def get_utterance(city, name, category, neighborhood, description, has_descripti
 
 
 def get_neighborhood(place_info, api='FOURSQUARE'):
-    if api=='GOOGLE':
+    if api == 'GOOGLE':
         app = list(filter(lambda x: 'locality' in x['types'], place_info['address_components']))
         if len(app) == 0:
             neighborhood = None
@@ -560,7 +563,6 @@ def get_photo_url(place_info):
     prefix = place_info['photos'][0]['prefix']
     suffix = place_info['photos'][0]['suffix']
     return prefix + "original" + suffix
-
 
 # class ActionRememberCity(Action):
 #     def name(self) -> Text:
