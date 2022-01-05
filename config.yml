@@ -11,13 +11,20 @@ pipeline:
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
+  # extractor able to readca look-Up table. Drawback: it recognizes only entities from training data
+  - name: RegexEntityExtractor
+    case_sensitive: false
+    use_lookup_tables: true
+    use_regexes: true
   - name: CountVectorsFeaturizer
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
+  # we already have the regex entity extractor for entity recognition, we disable it in DIET
   - name: DIETClassifier
     epochs: 100
     constrain_similarities: true
+    entity_recognition: false
   - name: FallbackClassifier
     threshold: 0.3
     ambiguity_threshold: 0.1
@@ -25,20 +32,7 @@ pipeline:
     case_sensitive: false
     use_lookup_tables: true
     use_regexes: true
-#  - name: "rasa_addons.components.entities_filter.EntitiesFilter"
-#    entities:
-#      affirm: []
-#      bot_challenge: []
-#      deny: []
-#      goodbye: []
-#      greet: []
-#      inform_category: ['category']
-#      inform_city: ['city']
-#      nlu_fallback: []
-#      ask_price_range: []
-#      thanks: []
-#      ask_more_suggestions: []
-#      ask_something_close: ['category']
+    entity_recognition: false
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100

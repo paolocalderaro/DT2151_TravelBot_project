@@ -14,7 +14,7 @@
 
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker, FormValidationAction
-from rasa_sdk.events import SlotSet
+from rasa_sdk.events import SlotSet, AllSlotsReset
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 import random
@@ -25,6 +25,10 @@ import numpy as np
 from langdetect import detect
 from deep_translator import GoogleTranslator
 from bs4 import BeautifulSoup
+
+
+from rasa_sdk import Tracker, FormValidationAction
+from rasa_sdk.types import DomainDict
 
 
 logger = logging.getLogger(__name__)
@@ -175,6 +179,41 @@ class ActionPriceRange(Action):
         utterance = utterances[idx].format(place_info['name'], price_text) if price_range != -1 else \
             f"I'm sorry, I did not found any price information regarding {name_place}"
         return utterance
+
+
+
+# class ValidateQueryAgainForm(Action):
+#     def name(self) -> Text:
+#         return "validate_POI_form"
+#
+#     def run(self, dispatcher, tracker, domain):
+#         query_again = tracker.get_slot('query_again')
+#         city = tracker.get_slot('city')
+#         category = tracker.get_slot('category')
+#
+#         if query_again == False:
+#             return[SlotSet("go_next", True)]
+#         elif (query_again == True or None) and city is not None and category is not None:
+#
+
+
+# action used to clear all slots and start a new query from zero
+class Action_reset_all_slots(Action):
+    def name(self) -> Text:
+        return "action_reset_slots"
+    def run(self, dispatcher, tracker, domain):
+        return [AllSlotsReset()]
+
+
+# keep the current city, update the category
+class Action_reset_category(Action):
+    def name(self) -> Text:
+        return "action_reset_category"
+
+    def run(self, dispatcher, tracker, domain):
+        return [SlotSet("category", None)]
+
+
 
 
 class ActionSearchPlace_w_Google(Action):

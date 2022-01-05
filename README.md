@@ -9,6 +9,7 @@
 - [Rasa/duckling image](https://hub.docker.com/r/rasa/duckling): use **docker pull rasa/duckling** from CLI after downloading docker
 
 > Make sure that the paths to ngrok and gactions are added to the PATH environment variable
+> set PATH=%PATH%;C:\your\path\here\
 
 #### Prepare the environment
 

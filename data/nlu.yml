@@ -46,6 +46,18 @@ nlu:
     - of course
     - that sounds good
     - correct
+    - ok
+    - yes please
+    - why not
+    - yes please proceed
+    - yes i would love to
+    - ya
+    - ya carry on with booking
+    - it would be amazing
+    - oh great, please do it for me
+    - thanks
+    - thanks a lot
+    - yes thanks a lot
 - intent: deny
   examples: |
     - no
@@ -55,6 +67,7 @@ nlu:
     - don't like that
     - no way
     - not really
+    - no thanks
 - intent: ask_price_range
   examples: |
     - Is it expensive?
@@ -81,7 +94,13 @@ nlu:
     - [Paris](city)
     - trip to [bari](city)
     - [stockholm](city)
-    - I would like to visit [Florence](city)[Florence](city)
+    - I would like to visit [Florence](city)
+    - [rome](city)
+    - I want to visit [milan](city)
+    - I want to visit [rome](city)
+    - I want to visit [paris](city) thanks
+    - [milan](city)
+    - [rome](city)
 - intent: inform_category
   examples: |
     - I want to see [museum](category)
@@ -95,16 +114,12 @@ nlu:
     - [park](category)
     - I would like to see [museum](category)
     - I want to visit [park](category)
-#- intent: ask_something_close
-#  examples: |
-#    - Can you suggest something close to the last place you suggested me?
-#    - Is there something close to what you suggested me?
-#    - Can you suggest me a [park](category) close to what you already suggested?
-#    - Is there another [museum](category) close to the one you already suggested me?
-#    - Could you give me another place to visit?
-#    - Could you suggest another place to visit?
-#    - Can you suggest a [cafe](category) close to the [park](referenced_category)?
-#    - Can you suggest a [cafe](category) close to the [museum](referenced_category)?
+    - looking for some [museum](category)
+    - I want to visit [caffe](category)
+    - yes some [museum](category)
+    - I would like to visit some [museum](category) too
+    - some [museum](category)
+    - [park](category)
 - intent: ask_more_suggestions
   examples: |
     - Can you give me more suggestions?
@@ -112,3 +127,10 @@ nlu:
     - I would like more travel tips
     - Do you have anything else to suggest?
     - Are there other options?
+- intent: inform
+  examples: |
+    - I want to see [museum](category) in [Stockholm](city)
+    - I want to see [park](category) in [Stockholm](city)
+    - I want to see [cafe](category) in [Stockholm](city)
+    - I want to [see](city) [cool](city) [park](category) in [stockholm](city)
+    - I want to visit some [museum](category) in [stockholm](city)

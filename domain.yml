@@ -33,27 +33,14 @@ entities:
 - category
 - city
 - subcategory
-- referenced_category
 slots:
   city:
-    type: rasa.shared.core.slots.AnySlot
-    initial_value: null
-    auto_fill: true
+    type: text
+    auto_fill: false
     influence_conversation: false
   category:
-    type: rasa.shared.core.slots.AnySlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: false
-  subcategory:
-    type: rasa.shared.core.slots.AnySlot
-    initial_value: null
-    auto_fill: true
-    influence_conversation: false
-  referenced_category:
-    type: rasa.shared.core.slots.AnySlot
-    initial_value: null
-    auto_fill: true
+    type: text
+    auto_fill: false
     influence_conversation: false
 
 responses:
@@ -82,16 +69,37 @@ responses:
   - text: Can I suggest you something else?
   - text: Would you like a few more travel suggestions?
   - text: Is there anything else I can do?
+  utter_ask_category:
+  - text: What would you like to visit? Park, museum, caffe or shopping points? 🗺
+  - text: Choose between Park, museum, caffe or shopping points and I will do my best to help you!  🗺
+  utter_ask_query_again:
+  - text: you need more help? 🗺
+  utter_ask_more:
+  - text: Did that help you? You want to visit other places?
+  - text: Do you want to visit other places?
+  - text: Do you need any more help?
 actions:
+- action_remember_city
+- action_reset_category
+- action_reset_slots
 - action_search_POI
 - action_ask_price_range
 #- action_ask_something_close
 - action_ask_category
 - utter_ask_city
-- utter_did_that_help
+- utter_ask_more
 - utter_goodbye
 - utter_greet
 - utter_iamabot
 - utter_please_rephrase
 - utter_more_suggestions
 e2e_actions: []
+forms:
+  POI_form:
+    required_slots:
+      city:
+      - type: from_entity
+        entity: city
+      category:
+      - type: from_entity
+        entity: category
