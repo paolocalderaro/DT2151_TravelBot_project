@@ -56,18 +56,6 @@ slots:
     auto_fill: true
     influence_conversation: false
 
-forms:
-  city_form:
-    ignored_intents:
-      - thanks
-      - nlu_fallback
-      - deny
-      - affirm
-      - bot_challenge
-      - goodbye
-      - greet
-    required_slots:
-      - city
 responses:
   utter_greet:
   - text: Hey! Nice to meet you. I'm TravelBot!
@@ -99,7 +87,6 @@ actions:
 - action_ask_price_range
 #- action_ask_something_close
 - action_ask_category
-- validate_city_form
 - utter_ask_city
 - utter_did_that_help
 - utter_goodbye
