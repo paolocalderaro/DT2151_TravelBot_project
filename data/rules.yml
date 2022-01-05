@@ -18,6 +18,32 @@ rules:
   - intent: inform_category
   - action: action_search_POI
 
+- rule: Ask the user to rephrase in case of low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+
+- rule: Give price range
+  steps:
+  - intent: ask_price_range
+  - action: action_ask_price_range
+
+- rule: User requires another suggestion. Bot asks for category
+  steps:
+  - intent: ask_more_suggestions
+  - action: action_ask_category
+
+- rule: Ask category if user want more suggestions (intent affirm)
+  steps:
+  - action: utter_more_suggestions
+  - intent: affirm
+  - action: action_ask_category
+
+- rule: Ask category if user want more suggestions (intent thanks)
+  steps:
+  - action: utter_more_suggestions
+  - intent: thanks
+  - action: action_ask_category
 
 # - rule: save the city in order to make the bot remember for it
 #   steps:

@@ -3,39 +3,51 @@
 language: en
 
 pipeline:
-# # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
-# # If you'd like to customize it, uncomment and adjust the pipeline.
-# # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  - name: WhitespaceTokenizer
+  - name: SpacyNLP
+    model: "en_core_web_md"
+    case_sensitive: false
+  - name: SpacyTokenizer
+  - name: SpacyFeaturizer
+  - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
-  - name: RegexEntityExtractor
-    case_sensitive: false
-    use_lookup_tables: true
-    use_regexes: true
   - name: CountVectorsFeaturizer
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
-
-  - name: "DucklingEntityExtractor"
-  # url of the running duckling server
-    url: "http://localhost:8000"
-    dimension: ['city', 'category', 'subcategory']
-
-    
   - name: DIETClassifier
-    epochs: 100
-    constrain_similarities: true
-
-  
-  - name: EntitySynonymMapper
-  - name: ResponseSelector
     epochs: 100
     constrain_similarities: true
   - name: FallbackClassifier
     threshold: 0.3
     ambiguity_threshold: 0.1
+  - name: RegexEntityExtractor
+    case_sensitive: false
+    use_lookup_tables: true
+    use_regexes: true
+#  - name: "rasa_addons.components.entities_filter.EntitiesFilter"
+#    entities:
+#      affirm: []
+#      bot_challenge: []
+#      deny: []
+#      goodbye: []
+#      greet: []
+#      inform_category: ['category']
+#      inform_city: ['city']
+#      nlu_fallback: []
+#      ask_price_range: []
+#      thanks: []
+#      ask_more_suggestions: []
+#      ask_something_close: ['category']
+  - name: EntitySynonymMapper
+  - name: ResponseSelector
+    epochs: 100
+    constrain_similarities: true
+
+
+# # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
+# # If you'd like to customize it, uncomment and adjust the pipeline.
+# # See https://rasa.com/docs/rasa/tuning-your-model for more information.
 
 
   
@@ -45,12 +57,12 @@ policies:
 # # No configuration for policies was provided. The following default policies were used to train your model.
 # # If you'd like to customize them, uncomment and adjust the policies.
 # # See https://rasa.com/docs/rasa/policies for more information.
-#   - name: MemoizationPolicy
-#   - name: RulePolicy
-#   - name: UnexpecTEDIntentPolicy
-#     max_history: 5
-#     epochs: 100
-#   - name: TEDPolicy
-#     max_history: 5
-#     epochs: 100
-#     constrain_similarities: true
+   - name: MemoizationPolicy
+   - name: RulePolicy
+   - name: UnexpecTEDIntentPolicy
+     max_history: 5
+     epochs: 100
+   - name: TEDPolicy
+     max_history: 5
+     epochs: 100
+     constrain_similarities: true

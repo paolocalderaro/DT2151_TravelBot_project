@@ -1,0 +1,19 @@
+version: "2.0"
+nlu:
+  - lookup: subcategory
+    examples: |
+      - history
+      - art
+      - science
+      - pet
+      - bubble tea
+      - tea
+      - urban
+      - national
+      - state
+      - provincial
+      - picnic area
+      - playground
+      - natural
+      - dog
+

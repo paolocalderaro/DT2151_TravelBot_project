@@ -12,13 +12,15 @@
 
 #### Prepare the environment
 
-Open the CLI from the path of the project (same location of **requirements.txt**)
+Open the CLI
 
-> conda create -n "rasa_env" --file requirements.txt 
+> conda create -n "rasa_env" python==3.8
 > 
 > conda activate rasa_env
 > 
-> cd scripts	
+> pip install rasa==2.8.6
+> 
+> pip install spacy en_core_web_md
 > 
 > python run_servers.py
 

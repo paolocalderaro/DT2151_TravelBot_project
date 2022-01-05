@@ -1,51 +1,110 @@
 version: '2.0'
+config:
+  store_entities_as_slots: true
 session_config:
   session_expiration_time: 60
-  carry_over_slots_to_new_session: true
+  carry_over_slots_to_new_session: false
 intents:
-- affirm
-- bot_challenge
-- deny
-- goodbye
-- greet
-- inform_category
-- inform_city
+- affirm:
+    use_entities: []
+- bot_challenge:
+    use_entities: []
+- deny:
+    use_entities: []
+- goodbye:
+    use_entities: []
+- greet:
+    use_entities: []
+- inform_category:
+    use_entities: true
+- inform_city:
+    use_entities: true
+- nlu_fallback:
+    use_entities: true
+- ask_price_range:
+    use_entities: true
+- thanks:
+    use_entities: []
+- ask_more_suggestions:
+    use_entities: true
+#- ask_something_close:
+#    use_entities: true
 entities:
 - category
 - city
 - subcategory
+- referenced_category
 slots:
   city:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   category:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
   subcategory:
-    type: any
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
     influence_conversation: false
+  referenced_category:
+    type: rasa.shared.core.slots.AnySlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+
+forms:
+  city_form:
+    ignored_intents:
+      - thanks
+      - nlu_fallback
+      - deny
+      - affirm
+      - bot_challenge
+      - goodbye
+      - greet
+    required_slots:
+      - city
 responses:
-  utter_ask_city:
-  - text: are you planning a trip?  🛫
-  - text: which city you want to visit?  🛫
-  - text: In which city are you planning to go?  🛫
   utter_greet:
-  - text: Hey! Nice to meet you, my name is TravelBot  😎
+  - text: Hey! Nice to meet you. I'm TravelBot!
+  - text: Hey! TravelBot is my name!
+  - text: Hey hey! TravelBot here
+  utter_ask_city:
+  - text: Hey! My name is TravelBot! I can recommend places to visit in a city. I can also give you information on the the price of what I have recommended. But now, let's start! Which city would you like to visit?
+  - text: Hey! I'm TravelBot! I'm a travel assistant. I can suggest places to visit in a city. If you want, you can ask about price of what I have recommended. But now, let's start! In which city are you planning to go?
+  - text: Hey! TravelBot is my name! I can recommend places to visit based on your requests. Price range is an additional information that you could ask. But now, let's start! Which city do you want to visit?
   utter_did_that_help:
   - text: Did that help you?
+  - text: Was it helpful?
   utter_goodbye:
-  - text: Bye
+  - text: It has been a pleasure to help you! See you soon.
+  - text: I hope I helped you. Goodbye!
+  - text: Goodbye, and have a nice day!
   utter_iamabot:
   - text: I am a bot, powered by Rasa.
-  utter_ask_category:
-  - text: 'What would you like to visit? Park, museum, caffe or shopping points? 🗺 '
-  - text: 'Choose between Park, museum, caffe or shopping points and I will do my best to help you!  🗺 '
+  utter_please_rephrase:
+  - text: I'm sorry. Could you repeat please?
+  - text: Could you rephrase it, please?
+  - text: Could you say it differently, please?
+  utter_more_suggestions:
+  - text: Can I suggest you something else?
+  - text: Would you like a few more travel suggestions?
+  - text: Is there anything else I can do?
 actions:
-- action_remember_city
 - action_search_POI
-- utter_ask_category
+- action_ask_price_range
+#- action_ask_something_close
+- action_ask_category
+- validate_city_form
 - utter_ask_city
 - utter_did_that_help
 - utter_goodbye
 - utter_greet
 - utter_iamabot
+- utter_please_rephrase
+- utter_more_suggestions
+e2e_actions: []

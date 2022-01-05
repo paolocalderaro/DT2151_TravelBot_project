@@ -1,0 +1,19 @@
+version: "2.0"
+nlu:
+  - lookup: category, referenced_category
+    examples: |
+      - Museum
+      - museums
+      - museum
+      - park
+      - parks
+      - paark
+      - cafe
+      - caffe
+      - coffee shop
+      - coffee
+      - green area
+      - coffee house
+      - coffee cafe
+      - coffee bar
+
