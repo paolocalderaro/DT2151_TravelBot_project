@@ -1,5 +1,5 @@
 nlu:
-  - lookup: city
+  - lookup: 1_city
     examples: |
       - Aguiar da Beira Municipality
       - Apetatitlan Antonio Carbajal
@@ -30238,12 +30238,6 @@ nlu:
       - Pardeeville
       - Pareci Novo
       - Paripiranga
-      - Parish Land
-      - Parishville
-      - Park Forest
-      - Park Rapids
-      - Park Valley
-      - Parker City
       - Parker Road
       - Parkersburg
       - Parkstetten
@@ -102283,29 +102277,6 @@ nlu:
       - Malo
       - Mals
       - Malu
-      - Mama
-      - Mana
-      - Mane
-      - Mani
-      - Mank
-      - Many
-      - Mara
-      - Mari
-      - Mark
-      - Marl
-      - Mars
-      - Mart
-      - Marz
-      - Mata
-      - Mati
-      - Matt
-      - Matu
-      - Maua
-      - Maud
-      - Mauk
-      - Maun
-      - Maur
-      - Mayo
       - Maza
       - Maze
       - Mazo
@@ -102397,7 +102368,6 @@ nlu:
       - Mrin
       - Msec
       - Muan
-      - Much
       - Muel
       - Muff
       - Muge
@@ -103490,4 +103460,3 @@ nlu:
       - Zuni
       - Zuoz
       - Zuya
-

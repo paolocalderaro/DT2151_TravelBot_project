@@ -25,6 +25,15 @@ nlu:
     - thank you so much
     - thx
     - many thanks
+    - thank you so much!
+    - wow, amazing! Thank you!
+    - Wow, thank you
+    - Thank you so much
+    - wow, amazing! thx
+    - This is beautiful! Thanks
+    - that's amazing, thank you!
+    - beautiful, thanks
+    - wow, thanks
 - intent: goodbye
   examples: |
     - good afternoon
@@ -58,6 +67,10 @@ nlu:
     - thanks
     - thanks a lot
     - yes thanks a lot
+    - that's beautiful
+    - amazing!
+    - yes, sure
+    - yes! please
 - intent: deny
   examples: |
     - no
@@ -83,24 +96,31 @@ nlu:
     - are you a human?
     - am I talking to a bot?
     - am I talking to a human?
-- intent: inform_city
+- intent: inform_1_city
   examples: |
-    - I want to plan a trip in [Stockholm](city)
-    - I am travelling to [Paris](city)
-    - I would like to visit [Stockholm](city)
-    - trip to [Rome](city)
-    - [Stockholm](city)
-    - [Rome](city)
-    - [Paris](city)
-    - trip to [bari](city)
-    - [stockholm](city)
-    - I would like to visit [Florence](city)
-    - [rome](city)
-    - I want to visit [milan](city)
-    - I want to visit [rome](city)
-    - I want to visit [paris](city) thanks
-    - [milan](city)
-    - [Berlin](city)[Berlin](city)
+    - I want to plan a trip in [Stockholm](1_city)
+    - I am travelling to [Paris](1_city)
+    - I would like to visit [Stockholm](1_city)
+    - trip to [Rome](1_city)
+    - [Stockholm](1_city)
+    - [Rome](1_city)
+    - [Paris](1_city)
+    - trip to [bari](1_city)
+    - [stockholm](1_city)
+    - I would like to visit [Florence](1_city)
+    - [rome](1_city)
+    - I want to visit [milan](1_city)
+    - I want to visit [rome](1_city)
+    - I want to visit [paris](1_city) thanks
+    - [milan](1_city)
+    - [Berlin](1_city)[Berlin](1_city)
+    - [Turin](1_city)
+    - [Berlin](1_city)
+    - [Florence](1_city)
+    - [Barcelona](1_city)
+    - [Munich](1_city)
+    - I would like to visit [Barcelona](1_city)
+    - mmm [Milan](1_city)
 - intent: inform_category
   examples: |
     - I want to see [museum](category)
@@ -108,7 +128,7 @@ nlu:
     - I want to see [cafe](category)
     - I want to go [shopping](category)
     - [museum](category) and [cafe](category)
-    - [museum](category)
+    - museum
     - [cafe](category)
     - [shopping](category)
     - [park](category)
@@ -126,10 +146,11 @@ nlu:
     - I would like more travel tips
     - Do you have anything else to suggest?
     - Are there other options?
+    - Yes, more suggestions
 - intent: inform
   examples: |
-    - I want to see [museum](category) in [Stockholm](city)
-    - I want to see [park](category) in [Stockholm](city)
-    - I want to see [cafe](category) in [Stockholm](city)
-    - I want to [see](city) [cool](city) [park](category) in [stockholm](city)
-    - I want to visit some [museum](category) in [stockholm](city)
+    - I want to see [museum](category) in [Stockholm](1_city)
+    - I want to see [park](category) in [Stockholm](1_city)
+    - I want to see [cafe](category) in [Stockholm](1_city)
+    - I want to [see](1_city) [cool](1_city) [park](category) in [stockholm](1_city)
+    - I want to visit some [museum](category) in [stockholm](1_city)

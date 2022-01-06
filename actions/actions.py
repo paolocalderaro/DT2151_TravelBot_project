@@ -14,7 +14,7 @@
 
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker, FormValidationAction
-from rasa_sdk.events import SlotSet, AllSlotsReset
+from rasa_sdk.events import SlotSet, AllSlotsReset, FollowupAction
 from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk.types import DomainDict
 import random
@@ -24,8 +24,6 @@ import json
 import numpy as np
 from langdetect import detect
 from deep_translator import GoogleTranslator
-from bs4 import BeautifulSoup
-
 from rasa_sdk import Tracker, FormValidationAction
 from rasa_sdk.types import DomainDict
 
@@ -41,7 +39,7 @@ ch.setFormatter(formatter)
 # add ch to logger
 logger.addHandler(ch)
 
-logger.debug(os.getcwd())
+# logger.debug(os.getcwd())
 
 category_id_map = json.load(open(".\\data\\subcategory_map_fsq.json", "r"))
 category_entity_map = json.load(open(".\\data\\category_map.json"))
@@ -60,13 +58,47 @@ def initialize_map():
 poi_by_category = initialize_map()
 
 
+class ActionRestorePreviousCity(Action):
+
+    def name(self) -> Text:
+        return "action_restore_previous_city"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        previous_city = tracker.get_slot("previous_city")
+        return [SlotSet("1_city", previous_city)]
+
+
+class ActionWelcome(Action):
+
+    def name(self) -> Text:
+        return "action_welcome"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        need_presentation = tracker.get_slot("need_presentation")
+        if need_presentation:
+            dispatcher.utter_message("Hey! TravelBot is my name! I can recommend places to visit based on your "
+                                     "requests. Price range is an additional information that you could ask. But now, "
+                                     "let's start! Which city do you want to visit?")
+            FollowupAction("action_listen")
+            return [SlotSet("need_presentation", False)]
+        dispatcher.utter_message(response="utter_ask_1_city")
+        FollowupAction("action_listen")
+        return []
+
+
 class ActionAskCategory(Action):
 
     def name(self) -> Text:
         return "action_ask_category"
 
-    def run(self, dispatcher, tracker, domain):
-        city = tracker.get_slot('city')
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        city = tracker.get_slot('1_city')
         last_intent = tracker.get_intent_of_latest_message()
         buttons = []
         speeches_first_time = [
@@ -90,7 +122,7 @@ class ActionAskCategory(Action):
 
         return [SlotSet('referenced_category', tracker.get_slot("referenced_category")),
                 SlotSet('category', None),
-                SlotSet('city', city),
+                SlotSet('1_city', city),
                 SlotSet('subcategory', tracker.get_slot('subcategory'))]
 
 
@@ -110,7 +142,7 @@ class ActionAskCategory(Action):
 #             dispatcher.utter_message("I'm sorry. I can't find anything that fits your request")
 #             return [SlotSet('referenced_category', referenced_category),
 #                     SlotSet('category', category),
-#                     SlotSet('city', tracker.get_slot('city')),
+#                     SlotSet('1_city', tracker.get_slot('city')),
 #                     SlotSet('subcategory', tracker.get_slot('subcategory'))]
 #         conversation_id = tracker.sender_id
 #         place_info, has_description = foursquare_place_search(last_city, category, None, logger, conversation_id, ll=ll,
@@ -120,7 +152,7 @@ class ActionAskCategory(Action):
 #             dispatcher.utter_message("I'm sorry. I can't find anything that fits your request")
 #             return [SlotSet('referenced_category', referenced_category),
 #                     SlotSet('category', category),
-#                     SlotSet('city', tracker.get_slot('city')),
+#                     SlotSet('1_city', tracker.get_slot('1_city')),
 #                     SlotSet('subcategory', tracker.get_slot('subcategory'))]
 #         name = place_info['name']
 #         neighborhood = get_neighborhood(place_info)
@@ -133,7 +165,7 @@ class ActionAskCategory(Action):
 #         poi_by_category['all_fsq_id'].append(place_info['fsq_id'])
 #         return [SlotSet('referenced_category', referenced_category),
 #                 SlotSet('category', category),
-#                 SlotSet('city', tracker.get_slot('city')),
+#                 SlotSet('1_city', tracker.get_slot('1_city')),
 #                 SlotSet('subcategory', tracker.get_slot('subcategory'))]
 #
 
@@ -142,7 +174,9 @@ class ActionPriceRange(Action):
     def name(self) -> Text:
         return "action_ask_price_range"
 
-    def run(self, dispatcher, tracker, domain):
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
         if len(poi_by_category['all']) == 0:
             logger.debug("ACTION 'PRICE RANGE': there is no existing POI")
             dispatcher.utter_message(
@@ -152,7 +186,7 @@ class ActionPriceRange(Action):
             dispatcher.utter_message(utterance)
         return [SlotSet('referenced_category', tracker.get_slot('referenced_category')),
                 SlotSet('category', tracker.get_slot('category')),
-                SlotSet('city', tracker.get_slot('city')),
+                SlotSet('1_city', tracker.get_slot('1_city')),
                 SlotSet('subcategory', tracker.get_slot('subcategory'))]
 
     def _generate_utterance_for_place_price(self, place_info):
@@ -184,7 +218,7 @@ class ActionPriceRange(Action):
 #
 #     def run(self, dispatcher, tracker, domain):
 #         query_again = tracker.get_slot('query_again')
-#         city = tracker.get_slot('city')
+#         city = tracker.get_slot('1_city')
 #         category = tracker.get_slot('category')
 #
 #         if query_again == False:
@@ -198,8 +232,12 @@ class Action_reset_all_slots(Action):
     def name(self) -> Text:
         return "action_reset_slots"
 
-    def run(self, dispatcher, tracker, domain):
-        return [AllSlotsReset()]
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        logger.debug("Running action_reset_slots")
+        return [{"event": "slot", "name": "1_city", "value": None},
+                {"event": "slot", "name": "category", "value": None}]
 
 
 # keep the current city, update the category
@@ -207,7 +245,10 @@ class Action_reset_category(Action):
     def name(self) -> Text:
         return "action_reset_category"
 
-    def run(self, dispatcher, tracker, domain):
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+        logger.debug("Running action_reset_category")
         return [SlotSet("category", None)]
 
 
@@ -219,9 +260,14 @@ class ActionSearchPlace_w_Google(Action):
     def name(self) -> Text:
         return "action_search_POI"
 
-    def run(self, dispatcher, tracker, domain):
-        # retrieve slot values
-        city = tracker.get_slot('city')
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:  # retrieve slot values
+        logger.debug("EVENTS AFTER LATEST RESTART:"
+                     f"{tracker.events_after_latest_restart()}"
+                     f"ALL PAST EVENTS:"
+                     f"{tracker.events}")
+        city = tracker.get_slot('1_city')
         category = tracker.get_slot('category')
         use_old_search = True if self.last_city == city and self.last_category == category else False
         subcategory = tracker.get_slot('subcategory')
@@ -249,15 +295,25 @@ class ActionSearchPlace_w_Google(Action):
         if category is not None:
             cat_name = category_entity_map[category]
             poi_by_category[cat_name].append(place_info)
-            poi_by_category['all'].append(place_info)
-            poi_by_category['all_fsq_id'].append(place_info['fsq_id'])
+
+        poi_by_category['all'].append(place_info)
+        poi_by_category['all_fsq_id'].append(place_info['fsq_id'])
+        logger.debug(f"Adding current poi_id to list ({place_info['fsq_id']})")
         speech = get_utterance(city, name, category, neighborhood, description, has_description)
         photo_url = get_photo_url(place_info)
         dispatcher.utter_message(speech, image=photo_url)  # send the response back to the user
         self.last_city = city
         self.last_category = category
-        return [SlotSet('city', city), SlotSet('category', category),
-                SlotSet('subcategory', subcategory)]  # set returned details as slots
+        logger.debug("action_search_POI executed. City and category are going to be set to None"
+                     f"Previous city and previous category: {city}, {category}")
+        return [{"event": "slot", "name": "1_city", "value": None},
+                {"event": "slot", "name": "category", "value": None},
+                {"event": "slot", "name": "is_first_search_done", "value": True},
+                {"event": "slot", "name": "previous_category", "value": str(category)},
+                {"event": "slot", "name": "previous_city", "value": str(city)}]
+
+    def get_last_city(self):
+        return self.last_city
 
 
 def google_search_wrapper(city, category, conversation_id, use_old_search=True, ll=None, exclude_place_ids=[]):
@@ -453,11 +509,12 @@ def foursquare_place_search(city, category, subcategory, logger,
             json.dump(data, outfile, indent=4, sort_keys=True)
 
     logger.debug(f"BEFORE FILTERING - Number of results retrieved by FSQ: {len(data['results'])}")
-    keep_idx = [idx if res['fsq_id'] not in exclude_fsq_ids else -1 for idx, res in enumerate(data['results'])]
+    logger.debug(f"Current list of fsq_ids: {[r['fsq_id'] for r in data['results']]}")
+    logger.debug(f"List of fsq_ids to be excluded: {exclude_fsq_ids}")
+    keep_idx = [idx if res['fsq_id'].strip() not in exclude_fsq_ids else -1 for idx, res in enumerate(data['results'])]
     keep_idx = list(filter(lambda x: x != -1, keep_idx))
-    data['results'] = np.array(data['results'])[keep_idx]
-    logger.debug(f"AFTER FILTERING - Number of results retrieved by FSQ: {len(data['results'])}")
-    logger.debug(f"Filtered FSQ pois: {exclude_fsq_ids}")
+    filtered_pois = np.array(data['results'])[keep_idx]
+    logger.debug(f"AFTER FILTERING - Number of results retrieved by FSQ: {len(filtered_pois)}")
     if 'results' not in data.keys() or len(data['results']) == 0:
         logger.error("FOURSQUARE DID NOT PROVIDE ANY RESULT")
         return None, None
@@ -466,11 +523,11 @@ def foursquare_place_search(city, category, subcategory, logger,
                                   ('neighborhood' in x['location'].keys())
                                   and
                                   (len(x['location']['neighborhood']) > 0),
-                                  data['results']))
+                                  filtered_pois))
         if len(data_w_neig) == 0:
             has_neighborhood = False
             logger.debug("FOURSQUARE PLACES API DID NOT RETURN ANY PLACE WITH NEIGHBORHOOD INFORMATION")
-            data = data['results']
+            data = filtered_pois
         else:
             has_neighborhood = True
             data = data_w_neig

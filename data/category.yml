@@ -1,6 +1,6 @@
 version: "2.0"
 nlu:
-  - lookup: category, referenced_category
+  - lookup: category
     examples: |
       - Museum
       - museums

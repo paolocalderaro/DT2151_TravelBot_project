@@ -21,9 +21,24 @@ Open the CLI
 > 
 > pip install rasa==2.8.6
 > 
-> pip install spacy en_core_web_md
+> conda install -c conda-forge spacy
+> 
+> python -m spacy download en_core_web_md
+> 
+> pip install pip==20.2
+> 
+> pip3 install rasa-x==0.39.3 —-extra-index-url https://pypi.rasa.com/simple —-use-deprecated=legacy-resolver --use-feature=2020-resolver
+> 
+> pip install sanic-jwt==1.6.0
 > 
 > python run_servers.py
+
+Additional requirements:
+
+> pip install -U deep-translator
+> 
+> pip install langdetect
+
 
 Then, you can finally open you Google Assistant console and test your project.
 
