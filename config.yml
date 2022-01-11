@@ -20,7 +20,8 @@ pipeline:
     analyzer: char_wb
     min_ngram: 1
     max_ngram: 4
-  # we already have the regex entity extractor for entity recognition, we disable it in DIET
+#  - name: "CRFEntityExtractor"
+#  # we already have the regex entity extractor for entity recognition, we disable it in DIET
   - name: DIETClassifier
     epochs: 100
     constrain_similarities: true

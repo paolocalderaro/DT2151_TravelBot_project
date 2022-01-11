@@ -6,40 +6,62 @@ import json
 import os
 import requests
 import logging
+from datetime import datetime
+import sys, re
 
 
 logger = logging.getLogger(__name__)
-cur_time_ns = time.time_ns()
+cur_date = str(datetime.now()).replace(" ", "_").replace(":", "-")
+idx_dot = cur_date.find(".")
+cur_date = cur_date[:idx_dot] if idx_dot != -1 else cur_date
 ngrok_lock = threading.Lock()
 ngrok_lock.acquire()
 os.chdir("..")
+
+
+try:
+    os.makedirs(".\\logs\\voice_based\\")
+except:
+    pass
+
+
+def escape_ansi(line):
+    ansi_escape =re.compile(r'(\x9B|\x1B\[)[0-?]*[ -\/]*[@-~]')
+    return ansi_escape.sub('', line)
 
 
 class RasaEndpoint(Thread):
     def __init__(self, port=5004):
         Thread.__init__(self)
         self.port = port
-        self.log_file = f".//logs//{cur_time_ns}_rasa_server.log"
+        self.log_file = f".\\logs\\voice_based\\{cur_date}_rasa_server.log"
 
     def run(self):
-        # run rasa server on localhost, port 'self.port'
-        subprocess.run(['rasa', 'run', '--enable-api', '-p', str(self.port), '--log-file', self.log_file, '--debug'],
-                       stdout=subprocess.DEVNULL,
-                       stderr=subprocess.STDOUT
-                       )
+        with open(self.log_file, "w") as fp:
+            # run rasa server on localhost, port 'self.port'
+            p = subprocess.run(['rasa', 'run', '--enable-api', '-p', str(self.port)],
+                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
+            for line in p.stdout:
+                try:
+                    sys.stdout.write(line)
+                    fp.write(escape_ansi(line))
+                except:
+                    pass
 
 
 class RasaActions(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.log_file = f".//logs//{cur_time_ns}_rasa_actions.log"
+        self.log_file = f".\\logs\\voice_based\\{cur_date}_rasa_actions.log"
 
     def run(self):
-        with open(self.log_file, "w", buffering=1) as fp:
-            p = subprocess.Popen(['rasa', 'run', 'actions', '--debug'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        with open(self.log_file, "w") as fp:
+            p = subprocess.Popen(['rasa', 'run', 'actions', '--debug'],
+                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
             for line in p.stdout:
                 try:
-                    fp.write(line.decode("utf-8"))
+                    sys.stdout.write(line)
+                    fp.write(escape_ansi(line))
                 except:
                     pass
         # with open(self.log_file, "w") as fp:
@@ -54,7 +76,7 @@ class NgrokServer(Thread):
     def __init__(self, port):
         Thread.__init__(self)
         self.port = port
-        self.log_file = f".//logs//{cur_time_ns}_ngrok_server.log"
+        self.log_file = f".\\logs\\voice_based\\{cur_date}_ngrok_server.log"
 
     def run(self):
         # make the local server visible from the outside, through ngrok services
@@ -67,7 +89,7 @@ class NgrokServer(Thread):
 class DucklingServer(Thread):
     def __init__(self):
         Thread.__init__(self)
-        self.log_file = f".//logs//{cur_time_ns}_duckling_server.log"
+        self.log_file = f".\\logs\\voice_based\\{cur_date}_duckling_server.log"
 
     def run(self):
         if not self._is_duckling_running():
@@ -84,7 +106,7 @@ class DucklingServer(Thread):
 class GactionsSetup(Thread):
     def __init__(self):
         Thread.__init__(self)
-        # self.log_file = f"logs/{cur_time_ns}_gactions.log"
+        # self.log_file = f"logs/{cur_date}_gactions.log"
         self.project_id = "test-70c96"
         self.ngrok_url = "localhost:4040"
         self.MAX_RETRY = 5

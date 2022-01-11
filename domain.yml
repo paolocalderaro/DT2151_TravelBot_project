@@ -19,20 +19,21 @@ intents:
     use_entities: []
 - greet:
     use_entities: []
-- inform:
-    use_entities: true
 - inform_1_city:
     use_entities: true
 - inform_category:
     use_entities: true
+- inform_category_and_city:
+    use_entities: true
+- ask_everything_else:
+    use_entities: []
 - thanks:
     use_entities: []
+- ask_everythin_else:
+    use_entities: true
 entities:
 - category
 - 1_city
-- previous_city
-- previous_category
-- subcategory
 slots:
   1_city:
     type: rasa.shared.core.slots.TextSlot
@@ -64,8 +65,18 @@ slots:
     initial_value: true
     auto_fill: true
     influence_conversation: false
+  internal_error:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: false
+    auto_fill: true
+    influence_conversation: false
   is_first_search_done:
     type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  location_match:
+    type: rasa.shared.core.slots.UnfeaturizedSlot
     initial_value: null
     auto_fill: true
     influence_conversation: false
@@ -98,6 +109,10 @@ responses:
   - text: Can I suggest you something else?
   - text: Would you like a few more travel suggestions?
   - text: Is there anything else I can do?
+  - text: you need more help? 🗺
+  - text: Did that help you? You want to visit other places?
+  - text: Do you want to visit other places?
+  - text: Do you need any more help?
   utter_ask_category:
   - buttons:
     - payload: museum
@@ -127,21 +142,18 @@ responses:
     - payload: cafe
       title: Cafe
     text: '{1_city}! What a lovely choice! Would you like to see parks, a museums or cafes?'
-  utter_ask_more:
-  - text: you need more help? 🗺
-  - text: Did that help you? You want to visit other places?
-  - text: Do you want to visit other places?
-  - text: Do you need any more help?
 actions:
+- action_extract_slots
 - action_reset_category
 - action_reset_slots
 - action_search_POI
 - action_ask_price_range
+- action_i_dont_know
 - action_welcome
 - action_restore_previous_city
+- action_default_fallback
 - utter_ask_category
 - utter_ask_1_city
-- utter_ask_more
 - utter_goodbye
 - utter_greet
 - utter_iamabot

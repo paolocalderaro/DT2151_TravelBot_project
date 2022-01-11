@@ -38,7 +38,7 @@ stories:
   steps:
   - checkpoint: first_iter
   - intent: deny
-  - action: utter_ask_more
+  - action: utter_more_suggestions
   - action: action_reset_slots
   - checkpoint: slot_resetted
 - story: slot resetted + deny
@@ -69,9 +69,16 @@ stories:
   - slot_was_set:
     - category: park
   - checkpoint: first_iter
+- story: search POI -> inform category -> search another POI (same city)
+  steps:
+  - action: action_search_POI
+  - intent: inform_category
+    entities:
+    - category: park
+  - action: action_search_POI
 - story: search POI with other params
   steps:
-  - action: utter_ask_more
+  - action: utter_more_suggestions
   - action: action_reset_slots
   - intent: affirm
   - action: POI_form
@@ -88,5 +95,230 @@ stories:
     - requested_slot: null
   - active_loop: null
   - action: action_search_POI
+- story: user asks price range, bot gives it, user thanks, bot utter more suggestions
+  steps:
+  - intent: ask_price_range
+  - slot_was_set:
+    - 1_city: florence
+  - slot_was_set:
+    - category: park
+  - action: action_ask_price_range
+  - intent: thanks
+  - action: utter_more_suggestions
+- story: user asks price range, bot gives it, user affirm, bot utter more suggestions
+  steps:
+  - intent: ask_price_range
+  - slot_was_set:
+    - 1_city: florence
+  - slot_was_set:
+    - category: park
+  - action: action_ask_price_range
+  - intent: affirm
+  - action: utter_more_suggestions
+- story: user informs category, bot active POI form, user deny (means he wants the same city), bot restore previous city and search POI
+  steps:
+  - intent: inform_category
+    entities:
+    - category: park
+  - action: POI_form
+  - active_loop: POI_form
+  - slot_was_set:
+    - category: park
+  - intent: deny
+  - action: action_restore_previous_city
+  - action: action_search_POI
+- story: bot does not find POI (loc_match none), user affirm, bot utters more suggestions
+  steps:
+  - action: action_search_POI
+  - slot_was_set:
+    - location_match: none
+  - intent: affirm
+  - action: utter_more_suggestions
+- story: bot does not find POI (loc_match none), user thanks, bot utters more suggestions
+  steps:
+  - action: action_search_POI
+  - slot_was_set:
+    - location_match: none
+  - intent: thanks
+  - action: utter_more_suggestions
+- story: action_default_fallback, user asks more suggestions, bot actives POI form
+  steps:
+  - action: action_default_fallback
+  - intent: ask_more_suggestions
+  - action: action_reset_slots
+  - action: POI_form
+  - active_loop: POI_form
+- story: bot utters more suggestions, user asks for more suggestions, bot active POI form
+  steps:
+  - action: utter_more_suggestions
+  - intent: ask_more_suggestions
+  - action: action_reset_slots
+  - action: POI_form
+  - active_loop: POI_form
+- story: user informs cat and city, bot active poi form, user denies (does not want the same city), bot restore prev city5
+  steps:
+  - intent: inform_category_and_city
+    entities:
+    - category: park
+  - action: POI_form
+  - active_loop: POI_form
+  - slot_was_set:
+    - category: park
+  - intent: deny
+  - action: action_restore_previous_city
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_search_POI
+- story: action_default_fallback, user asks price range, bot gives price range
+  steps:
+  - action: action_default_fallback
+  - intent: ask_price_range
+  - action: action_ask_price_range
+- story: utter more suggestions, user informs category, bot active poi form
+  steps:
+  - intent: thanks
+  - action: utter_more_suggestions
+  - slot_was_set:
+    - category: museum
+  - intent: inform_category
+    entities:
+    - category: museum
+  - action: action_search_POI
 
 
+- story: Story from Conversation ID da9e87dea92945559ff284f59923b35f
+  steps:
+  - intent: greet
+  - action: action_welcome
+  - slot_was_set:
+    - need_presentation: false
+  - slot_was_set:
+    - 1_city: Barcelona
+  - intent: inform_1_city
+    entities:
+    - 1_city: Barcelona
+  - action: POI_form
+  - active_loop: POI_form
+  - slot_was_set:
+    - 1_city: Barcelona
+  - slot_was_set:
+    - category: museum
+  - intent: inform_category
+    entities:
+    - category: museum
+  - action: POI_form
+  - active_loop: null
+  - slot_was_set:
+    - category: museum
+  - action: action_search_POI
+  - slot_was_set:
+    - 1_city: null
+  - intent: thanks
+  - action: utter_more_suggestions
+  - intent: deny
+  - action: utter_goodbye
+  - intent: goodbye
+- story: Story from Conversation ID b6537bf6ae454053a6ec665898696639
+  steps:
+  - slot_was_set:
+    - 1_city: London
+  - intent: inform_category_and_city
+    entities:
+    - category: park
+    - 1_city: London
+  - action: POI_form
+  - active_loop: POI_form
+  - slot_was_set:
+    - 1_city: London
+  - action: action_search_POI
+  - slot_was_set:
+    - 1_city: null
+  - slot_was_set:
+    - category: museum
+  - intent: inform_category_and_city
+    entities:
+    - category: museum
+  - action: POI_form
+  - active_loop: POI_form
+  - slot_was_set:
+    - category: museum
+  - slot_was_set:
+    - 1_city: London
+  - intent: inform_1_city
+    entities:
+    - 1_city: London
+  - action: POI_form
+  - active_loop: null
+  - slot_was_set:
+    - 1_city: London
+  - action: action_search_POI
+  - slot_was_set:
+    - 1_city: null
+  - intent: ask_price_range
+  - action: action_ask_price_range
+- story: USER REPEATS GREET TWICE
+  steps:
+  - intent: greet
+  - action: action_welcome
+  - slot_was_set:
+    - need_presentation: false
+  - intent: greet
+  - action: POI_form
+  - active_loop: POI_form
+#- story: USER INFORMS INVALID CATEGORY
+#  steps:
+#  - intent: greet
+#  - action: action_welcome
+#  - slot_was_set:
+#    - need_presentation: false
+#  - slot_was_set:
+#    - 1_city: oslo
+#  - intent: inform_1_city
+#    entities:
+#    - 1_city: oslo
+#  - action: POI_form
+#  - active_loop: POI_form
+#  - slot_was_set:
+#    - 1_city: oslo
+#  - slot_was_set:
+#    - category: cafe
+#  - intent: inform_category
+#    entities:
+#    - category: cafe
+#  - action: POI_form
+#  - active_loop: null
+#  - slot_was_set:
+#    - category: cafe
+#  - action: action_search_POI
+#  - slot_was_set:
+#    - 1_city: null
+#  - intent: thanks
+#  - action: utter_more_suggestions
+#  - intent: inform_category
+#  - slot_was_set:
+#    - category: null
+#  - action: utter_ask_category
+- story: INTERNAL ERROR DURING ACTION_SEARCH_POI (affirm)
+  steps:
+  - action: action_search_POI
+  - slot_was_set:
+    - internal_error: true
+  - intent: affirm
+  - action: utter_more_suggestions
+- story: INTERNAL ERROR DURING ACTION_SEARCH_POI (thanks)
+  steps:
+  - action: action_search_POI
+  - slot_was_set:
+    - internal_error: true
+  - intent: thanks
+  - action: utter_more_suggestions
+
+- story: Story from Conversation ID 8188044326c44a6aa231f8193080197f
+  steps:
+  - intent: greet
+  - action: action_welcome
+  - slot_was_set:
+    - need_presentation: false
+  - intent: deny
+  - action: utter_goodbye

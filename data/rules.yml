@@ -7,24 +7,43 @@ rules:
   - intent: goodbye
   - action: utter_goodbye
 
+- rule: If the bot says goodbye to the user and the user replies with goodbye, the bot does not need to reply again
+  steps:
+  - action: utter_goodbye
+  - intent: goodbye
+  - action: action_listen
+
 - rule: Say 'I am a bot' anytime the user challenges
   steps:
   - intent: bot_challenge
   - action: utter_iamabot
-
-- rule: reset slot after the ask_more utter
-  steps:
-  - action: utter_ask_more
-  - action: action_reset_slots
 
 - rule: say welcome to the user
   conversation_start: true
   steps:
   - intent: greet   # intent that triggers form activation
   - action: action_welcome
+  wait_for_user_input: true
+
+- rule: first user intent 'inform city' -> bot activates POI_form
+  conversation_start: true
+  steps:
+  - intent: inform_1_city
+  - action: POI_form
+  - active_loop: POI_form
+
+- rule: first user intent 'inform_category' -> bot activates POI_form
+  conversation_start: true
+  steps:
+  - intent: inform_category
+  - action: POI_form
+  - active_loop: POI_form
+
 
 # rule to activate the POI_form needed to make sure that both city and category are given
 - rule: activate POI form (note that action_welcome calls utter_ask_city and action_listen)
+  condition:
+  - active_loop: null
   steps:
   - intent: inform_1_city
   - action: POI_form
@@ -40,24 +59,77 @@ rules:
   - slot_was_set:
     - requested_slot: null
   - action: action_search_POI    # action to take after the form is complete
-
+  wait_for_user_input: true
 
 - rule: Give price range
   steps:
   - intent: ask_price_range
   - action: action_ask_price_range
+  wait_for_user_input: true
+
+- rule: search poi, inform category, search poi same city (park)
+  steps:
+  - action: action_search_POI
+  - action: action_listen
+  - intent: inform_category
+  - slot_was_set:
+      - category: park
+  - action: action_search_POI
+  wait_for_user_input: true
+
+- rule: search poi, inform category, search poi same city (museum)
+  steps:
+  - action: action_search_POI
+  - action: action_listen
+  - intent: inform_category
+  - slot_was_set:
+      - category: museum
+  - action: action_search_POI
+  wait_for_user_input: true
+
+- rule: search poi, inform category, search poi same city (cafe)
+  steps:
+  - action: action_search_POI
+  - action: action_listen
+  - intent: inform_category
+  - slot_was_set:
+      - category: cafe
+  - action: action_search_POI
+  wait_for_user_input: true
+
+- rule: Bot gives price range -> user thanks -> bot asks if the user wants more suggestions
+  steps:
+  - action: action_ask_price_range
+  - intent: thanks
+  - action: utter_more_suggestions
+  wait_for_user_input: true
 
 - rule: bot searches POI, user thanks, bot asks the user if he wants more suggestions
   steps:
   - action: action_search_POI
   - intent: thanks
   - action: utter_more_suggestions
+  wait_for_user_input: true
 
-- rule: user does not want more suggestions
+- rule: user does not want more suggestions after search poi
+  steps:
+  - action: action_search_POI
+  - intent: deny
+  - action: utter_more_suggestions
+  - action: action_reset_slots
+
+
+- rule: user does not want more suggestions after utter more suggestions
   steps:
   - action: utter_more_suggestions
   - intent: deny
   - action: utter_goodbye
+
+- rule: user informs category after bot utters more suggestions --> bot searches poi
+  steps:
+  - action: utter_more_suggestions
+  - intent: inform_category
+  - action: action_search_POI
 
 - rule: Ask category if user want more suggestions (intent affirm)
   steps:
@@ -75,9 +147,16 @@ rules:
   - action: POI_form
   - active_loop: POI_form
 
-- rule: User requires another suggestion. Bot asks for category
+- rule: User requires another suggestion. Bot actives POI form
   steps:
   - action: utter_more_suggestions
+  - intent: ask_more_suggestions
+  - action: action_reset_slots
+  - action: POI_form
+  - active_loop: POI_form
+
+- rule: User asks more suggestions
+  steps:
   - intent: ask_more_suggestions
   - action: action_reset_slots
   - action: POI_form
@@ -89,10 +168,52 @@ rules:
     - is_first_search_done: true
   steps:
   - action: utter_ask_1_city
-  - intent: affirm
+  - intent: deny
   - action: action_restore_previous_city
+  - action: utter_ask_category
+  wait_for_user_input: true
 
 
+- rule: inform category and city in one single intent -> Active poi_form (the end is connected to the rule 'submit form')
+  condition:
+  - active_loop: null
+  steps:
+  - intent: inform_category_and_city
+  - action: POI_form
+  - active_loop: POI_form
+#  - action: action_search_POI
+
+- rule: user asks everything else -> bot replies 'I dont know'
+  steps:
+  - intent: ask_everything_else
+  - action: action_i_dont_know
+  wait_for_user_input: true
+
+- rule: user informs city after fallback action
+  steps:
+  - action: action_default_fallback
+  - intent: inform_1_city
+  - action: POI_form
+  - active_loop: POI_form
+
+- rule: user informs category after fallback action
+  steps:
+  - action: action_default_fallback
+  - intent: inform_category
+  - action: POI_form
+  - active_loop: POI_form
+
+- rule: user does not want more suggestions after action fallback
+  steps:
+  - action: action_default_fallback
+  - intent: deny
+  - action: utter_goodbye
+
+- rule: manage inform category after ask price
+  steps:
+  - action: action_ask_price_range
+  - intent: inform_category
+  - action: action_search_POI
 
 #- rule: chain POI form with query again form
 #  condition:
@@ -106,6 +227,6 @@ rules:
 #
 #- rule: close query again form
 #  steps:
-#      - action: utter_ask_more
+#      - action: utter_more_suggestions
 #      - action: query_again_form             # run the form
 #      - active_loop: null            # the form is no longer active because it has been filled

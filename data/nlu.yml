@@ -16,6 +16,76 @@ nlu:
     - goodevening
     - good afternoon
     - sup
+    - hey! My name is John
+    - Hey! I'm Francis
+    - Hey bot!
+    - hey! Nice to meet you
+    - HI! Nice to meet you!
+    - HI! Nice to meet you
+    - Hey, nice to meet you
+    - HI, nice to meet you
+    - HI! nice to meet you
+    - Hi! nice to meet you
+    - hi!
+    - hi! Nice to meet you
+    - hi, nice to meet you
+    - Hey! Good morning
+    - Heya!
+    - Hey Hey!
+    - heya!
+    - hey!
+    - Hej
+    - hei
+    - helloù
+    - Heya! I'm Vittorio, nice to meet you!
+    - heya
+    - hej
+    - eys
+    - Hello
+    - Hey hey
+    - Hey Hey!!
+- intent: inform_category_and_city
+  examples: |
+    - I would like to visit a [museum](category) in [Paris](1_city)
+    - I want to go to a [cafe](category) in [Berlin](1_city)
+    - Can you suggest me a [park](category) in [Rome](1_city)
+    - What about a [park](category) in [Nice](1_city)?
+    - Could you advise a [museum](category) in [Budapest](1_city)
+    - I would like to visit [Paris](1_city) and I would like to go to a [park](category)
+    - Please, suggest me a [park](category) in [FLorence](1_city)
+    - I really want to lie down in a beautiful [park](category) in [Stockholm](1_city)
+    - I would like to go to [London](1_city) and visit a [museum](category)
+    - I would like to visit [Moscow](1_city) and then go to a [cafe](category)
+    - I want to see [museum](category) in [Stockholm](1_city)
+    - I want to see [park](category) in [Stockholm](1_city)
+    - I want to see [cafe](category) in [Stockholm](1_city)
+    - I want to see cool [park](category) in [stockholm](1_city)
+    - I want to visit some [museum](category) in [stockholm](1_city)
+    - I would like to see another [museum](category) in [Berlin](1_city)
+    - yes, I would like to visit a [museum](category) in [Porto](1_city)
+    - Thanks. [Museums](category) in [Boston](1_city)? Is there anything?
+    - Yes! A [museum](category) in [Lisbon](1_city)!
+    - Amazing! Now I'd like to know more about [Granada](1_city). Any [museum](category) there?
+    - now another [museum](category), always in [London](1_city)
+    - Yes, I'd like to visit another [museum](category) in [London](1_city)
+    - hey! Can you suggest me a [park](category) in [London](1_city)?
+    - Nono, a [park](category) in [New York](1_city)
+    - Yes please. Can you suggest me a [park](category) in [New York](1_city) city?
+    - A [Museum](category) in [florence](1_city)
+    - Can you suggest me a [park](category) in [Stockholm](1_city)?
+    - A [park](category) in [Polignano a mare](1_city)
+    - [Museum](category) in [Rome](1_city)?
+    - hello; I want to visit some good [cafe](category) in [moscow](1_city)
+    - I'd like to visit a [park](category) in [Rome](1_city)
+    - I'd like to see a [museum](category) in [Venice](1_city)
+    - I'd like to visit a [museum](category) in [FLorence](1_city)
+    - I'd like to visit a [museum](category) in [Naples](1_city)
+    - I'd like to visit a [museum](category) in [Paris](1_city)
+    - I'd like to go to a [cafe](category) in [Florence](1_city)
+    - can you suggest me a good [cafe](category) in [milan](1_city)
+    - can you suggest me some other [cafe](category) in [paris](1_city)?
+    - I'd like to visit a [museum](category) in [Prague](1_city)
+    - I'd like to visit [FLorence](1_city). A [museum](category)
 - intent: thanks
   examples: |
     - thank you
@@ -34,6 +104,41 @@ nlu:
     - that's amazing, thank you!
     - beautiful, thanks
     - wow, thanks
+    - wow, wonderful!
+    - wonderful!
+    - Wondeful
+    - Awesome! I like it!
+    - I love it, thanks
+    - I love it!
+    - I really appreciate that
+    - That's awesome!
+    - Impressive, thx
+    - wow, this is beautiful! thank you
+    - thanks bro
+    - Beautiful!
+    - Awesome! Many thanks!
+    - Wow! nice picture! Thx
+    - wow nice suggestion!
+    - uh, nice! thx
+    - wow! it looks wonderful
+    - nice! Thank you
+    - [Nice](1_city)! Thank you
+    - thanks a lot
+    - that's beautiful
+    - amazing!
+    - Amazing, many many thanks
+    - Magnificent!
+    - I really appreciate your help. Thank you very much
+    - Wow! Wonderful, thx
+    - Amazing
+    - Thanks
+    - no worries
+    - don't worry
+    - do not worry about
+    - no worry
+    - dont worry
+    - ok thanks
+    - thanks for the help
 - intent: goodbye
   examples: |
     - good afternoon
@@ -47,6 +152,21 @@ nlu:
     - bye bye
     - see you later
     - bye!
+    - Goodbye!
+    - Sure! Bye bye
+    - Bye!
+    - Amazing! Thanks, bye bye
+    - Thanks, bye
+    - Goodbye travel bot
+    - godbye
+    - byebye
+    - good byeeee
+    - byeee
+    - goooooodbyeee
+    - It was a pleasure to talk with you! Goodbye!
+    - See you later, alligator!
+    - no thanks bye
+    - thanks bye
 - intent: affirm
   examples: |
     - yes
@@ -56,7 +176,6 @@ nlu:
     - that sounds good
     - correct
     - ok
-    - yes please
     - why not
     - yes please proceed
     - yes i would love to
@@ -64,13 +183,18 @@ nlu:
     - ya carry on with booking
     - it would be amazing
     - oh great, please do it for me
-    - thanks
-    - thanks a lot
-    - yes thanks a lot
-    - that's beautiful
-    - amazing!
     - yes, sure
     - yes! please
+    - Ok
+    - Yes
+    - hell ya!
+    - Absolutely!
+    - Obv
+    - Obviously
+    - For sure!
+    - Yes, absolutly
+    - sure
+    - okay
 - intent: deny
   examples: |
     - no
@@ -81,6 +205,18 @@ nlu:
     - no way
     - not really
     - no thanks
+    - no, thank you
+    - no, thx
+    - No, thanks
+    - No
+    - No no
+    - nothing
+    - Nope
+    - Not at all
+    - noooo
+    - nopeee
+    - I don't want more suggestions
+    - stop
 - intent: ask_price_range
   examples: |
     - Is it expensive?
@@ -90,6 +226,24 @@ nlu:
     - Is it free entrance?
     - Should I pay to get in?
     - Do I have to pay anything to get in?
+    - Is the [Museum](category) expensive?
+    - Is It expensive?
+    - Is the [park](category) expensive?
+    - Can i know the price range
+    - What Is the price
+    - Can you tell me the price range?
+    - Is this expensive?
+    - can you search the price range?
+    - is the park free entry?
+    - Could you please tell me the price of the museum?
+    - Tell me the price
+    - I want to know the price
+    - Beautiful museum. But I think it's expensive. Isn't it?
+    - Amazing cafe! Is it too expensive?
+    - I hope the cafe is cheap
+    - I hope the museum is free
+    - is it expensive?
+    - whats the [price](1_city)?
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -121,6 +275,60 @@ nlu:
     - [Munich](1_city)
     - I would like to visit [Barcelona](1_city)
     - mmm [Milan](1_city)
+    - [Prague](1_city)
+    - [budapest](1_city)
+    - mmm [Krakow](1_city)
+    - [Porto](1_city)
+    - mmm [Paris](1_city), maybe
+    - mmm I really like [Geneva](1_city)
+    - [Geneva](1_city), sorry
+    - I'd love to visit [New York](1_city)
+    - no, [Milan](1_city) it's ok
+    - no, [Budapest](1_city) is ok
+    - no, [Berlin](1_city) is ok
+    - I always wanted to go to [Lisbon](1_city)
+    - I'd like to visit [Madrid](1_city)
+    - I think [Moscow](1_city). I'd like to go there
+    - I'd like to go to [Medelin](1_city)
+    - I would like to visit [Porto](1_city)
+    - hi, I'd like to go to [Edinburgh](1_city)
+    - I'd like to visit [Sydney](1_city) once in my life
+    - I'd like to visit [Valencia](1_city)
+    - [London](1_city) is okay
+    - Always [London](1_city)
+    - mmm I would like to visit [Nice](1_city)
+    - [Bruxelles](1_city)!
+    - I'd like to see something in [Bruxelles](1_city)
+    - I'd like to go to [Melbourne](1_city)
+    - Yes, I'd like to visit [Brooklyn](1_city). Nothing to suggest?
+    - In [Polignano a mare](1_city)
+    - I'd like to visit [Polignano a mare](1_city)
+    - I want to go to [Barcelona](1_city)
+    - [new york](1_city)
+    - I want to plan a trip to [new york](1_city)
+    - [monopoli](1_city)
+    - no, [monopoli](1_city) is fine
+    - [oslo](1_city)
+    - [moscow](1_city)
+    - I was thinking to visit [venice](1_city)
+    - I am planning to go to [venice](1_city)
+    - [London](1_city) Is fine
+    - [London](1_city)
+    - I'd like to visit [Florence](1_city)
+    - Tell me something about [Naples](1_city)
+    - [ROme](1_city)
+    - [paris](1_city)
+    - [milan](1_city) is fine
+    - no [milan](1_city) is fine
+    - in [milan](1_city)
+    - [milano](1_city)
+    - I want to visit [roccaraso](1_city)
+    - [bari](1_city) is fine
+    - [Bari](1_city)
+    - [paris](1_city) is fine
+    - [Prague](1_city) is okay
+    - [delhi](1_city)
+    - [london](1_city)
 - intent: inform_category
   examples: |
     - I want to see [museum](category)
@@ -128,7 +336,7 @@ nlu:
     - I want to see [cafe](category)
     - I want to go [shopping](category)
     - [museum](category) and [cafe](category)
-    - museum
+    - [museum](category)
     - [cafe](category)
     - [shopping](category)
     - [park](category)
@@ -139,6 +347,45 @@ nlu:
     - yes some [museum](category)
     - I would like to visit some [museum](category) too
     - some [museum](category)
+    - Yes, a [museum](category) please
+    - yes, a [museum](category)
+    - Any [park](category) to suggest?
+    - Hey! Can you suggest me a [museum](category)?
+    - Another [park](category)
+    - Can you suggest me a [park](category) also?
+    - I want to visit a musuem
+    - can you suggest me a [museum](category)?
+    - can I see also some [museum](category)?
+    - yes I want to visit also some [park](category)
+    - can I see more [museum](category)
+    - Everyone knows central [park](category). Can you suggest me another [park](category)?
+    - Creepy. Can you suggest me a [park](category) also?
+    - Amazing! Can you suggest me a [park](category) also?
+    - beautiful! I'd like to visit also a [museum](category)
+    - Yes! Another [park](category), please
+    - Yes, can you suggest me a [park](category) also?
+    - What about a [cafe](category)?
+    - I'd like to go to a [park](category), also
+    - mmm yes, I would like to see another [park](category)
+    - Adorable, can you suggest a [museum](category) in the same city?
+    - another [museum](category)?
+    - A [museum](category), also?
+    - Can you suggest me a [park](category), as well?
+    - can you auggest me a [park](category)
+    - can you suggest me a [cafe](category)
+    - a [park](category)
+    - yes I want to see also some [museum](category)
+    - can you suggest a good [cafe](category)
+    - yes a [museum](category)
+    - a [museu](category)
+    - can you suggest me also a good [museum](category)?
+    - can you suggest me a [cafe](category) also?
+    - another [cafe](category)
+    - Another [museum](category)
+    - more [cafe](category)
+    - another [cafe](category)?
+    - can you show me a different [museum](category)
+    - next [museum](category)
 - intent: ask_more_suggestions
   examples: |
     - Can you give me more suggestions?
@@ -147,10 +394,27 @@ nlu:
     - Do you have anything else to suggest?
     - Are there other options?
     - Yes, more suggestions
-- intent: inform
+    - oh, well. I know it. Do you have something else?
+    - More suggestions?
+    - Can you give me more suggestion?
+    - can I see more?
+    - can I see other?
+    - can you suggest me another one?
+    - any other choice
+    - more
+    - can you suggest me more poi?
+    - repeat?
+    - different
+    - new
+- intent: ask_everythin_else
   examples: |
-    - I want to see [museum](category) in [Stockholm](1_city)
-    - I want to see [park](category) in [Stockholm](1_city)
-    - I want to see [cafe](category) in [Stockholm](1_city)
-    - I want to [see](1_city) [cool](1_city) [park](category) in [stockholm](1_city)
-    - I want to visit some [museum](category) in [stockholm](1_city)
+    - Do you know when it is open?
+    - Is it open right now?
+    - When is possible to visit the place?
+    - When is possible to visit the [museum](category)?
+    - Is the [park](category) always open?
+    - How can I reach this place?
+    - How can I reach the [museum](category)?
+    - Is it far from the center?
+    - Is it close to the center?
+    - [London](1_city) is full of [museums](category)! Isn't it?
