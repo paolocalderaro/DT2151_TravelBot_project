@@ -39,17 +39,19 @@ stories:
   - checkpoint: first_iter
   - intent: deny
   - action: utter_more_suggestions
-  - action: action_reset_slots
   - checkpoint: slot_resetted
+
 - story: slot resetted + deny
   steps:
   - checkpoint: slot_resetted
   - intent: deny
   - action: utter_goodbye
+
 - story: slot resetted + affirm
   steps:
   - checkpoint: slot_resetted
   - intent: affirm
+  - action: action_reset_slots
   - action: POI_form
   - active_loop: POI_form
   - slot_was_set:

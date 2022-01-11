@@ -86,6 +86,7 @@ nlu:
     - can you suggest me some other [cafe](category) in [paris](1_city)?
     - I'd like to visit a [museum](category) in [Prague](1_city)
     - I'd like to visit [FLorence](1_city). A [museum](category)
+    - I want to visit some good [museum](category) in [venice](1_city)
 - intent: thanks
   examples: |
     - thank you
@@ -217,6 +218,8 @@ nlu:
     - nopeee
     - I don't want more suggestions
     - stop
+    - no thank you
+    - No thanks
 - intent: ask_price_range
   examples: |
     - Is it expensive?
@@ -244,6 +247,9 @@ nlu:
     - I hope the museum is free
     - is it expensive?
     - whats the [price](1_city)?
+    - can you tell me the price
+    - can you tell me the price?
+    - how much it costs?
 - intent: bot_challenge
   examples: |
     - are you a bot?
@@ -329,6 +335,11 @@ nlu:
     - [Prague](1_city) is okay
     - [delhi](1_city)
     - [london](1_city)
+    - [venice](1_city)
+    - [venice](1_city) is fine
+    - [berlin](1_city)
+    - [Milan](1_city) is fine
+    - [Milan](1_city)
 - intent: inform_category
   examples: |
     - I want to see [museum](category)
@@ -386,6 +397,9 @@ nlu:
     - another [cafe](category)?
     - can you show me a different [museum](category)
     - next [museum](category)
+    - can you suggest me a good [cafe](category)
+    - [Park](category)
+    - more [parks](1_city)[parks](category)
 - intent: ask_more_suggestions
   examples: |
     - Can you give me more suggestions?
@@ -406,6 +420,7 @@ nlu:
     - repeat?
     - different
     - new
+    - again
 - intent: ask_everythin_else
   examples: |
     - Do you know when it is open?

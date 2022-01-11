@@ -85,7 +85,7 @@ class ActionDefaultFallback(Action):
         buttons.append({"title": "Park", "payload": "park"})
         buttons.append({"title": "Cafe", "payload": "cafe"})
         buttons.append({"title": "Stop", "payload": "stop"})
-        dispatcher.utter_message(speech)
+        dispatcher.utter_message(speech, buttons=buttons)
         return [{"event": "slot", "name": "1_city", "value": tracker.get_slot("1_city")},
                 {"event": "slot", "name": "category", "value": tracker.get_slot("category")},
                 {"event": "slot", "name": "previous_category", "value": tracker.get_slot("previous_category")},
@@ -413,7 +413,7 @@ class ActionSearchPlace_w_Google(Action):
             poi_by_category['all_fsq_id'].append(place_info['fsq_id'])
             logger.debug(f"Adding current poi_id to list ({place_info['fsq_id']})")
             speech = get_utterance(city, name, category, neighborhood, description, has_description)
-            speech += "\nDo you want to visit something else? Park, museum, or cafe?"
+            speech += "\n\nDo you want to visit something else? Park, museum, or cafe?"
             buttons = []
             buttons.append({"title": "Museum", "payload": "museum"})
             buttons.append({"title": "Park", "payload": "park"})
