@@ -29,7 +29,8 @@ idx_dot = cur_date.find(".")
 cur_date = cur_date[:idx_dot] if idx_dot != -1 else cur_date
 ngrok_lock = threading.Lock()
 ngrok_lock.acquire()
-os.chdir("..")
+if not os.path.exists("config.yml"):
+    os.chdir("..")
 
 try:
     os.makedirs(".\\logs\\text_based\\")

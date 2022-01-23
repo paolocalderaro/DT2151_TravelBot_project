@@ -45,8 +45,9 @@ class RasaEndpoint(Thread):
                 try:
                     sys.stdout.write(line)
                     fp.write(escape_ansi(line))
-                except:
-                    pass
+                    fp.flush()
+                except Exception as e:
+                    sys.stdout.write(f"Exception occured in thread {__name__}: {e}")
 
 
 class RasaActions(Thread):
@@ -62,6 +63,7 @@ class RasaActions(Thread):
                 try:
                     sys.stdout.write(line)
                     fp.write(escape_ansi(line))
+                    fp.flush()
                 except:
                     pass
         # with open(self.log_file, "w") as fp:
@@ -129,6 +131,7 @@ class GactionsSetup(Thread):
         self._set_forwarding_address(forwarding_address)
         subprocess.run(['gactions', 'update', '--action_package', './action.json', '--project', self.project_id])
         subprocess.run(['gactions', 'test', '--action_package', './action.json', '--project', self.project_id])
+        # subprocess.run(['gdeploy', 'deploy', 'alpha'])
         ngrok_lock.release()
 
     def _set_forwarding_address(self, address):

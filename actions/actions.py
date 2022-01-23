@@ -31,15 +31,27 @@ from rasa_sdk.types import DomainDict
 from typing import Any, Text, Dict, List
 from rasa_sdk import Action, Tracker
 from rasa_sdk.events import SlotSet, SessionStarted, ActionExecuted, EventType
-
+from datetime import  datetime
 
 logger = logging.getLogger(__name__)
-SIMPLE_LOG_FORMAT = '[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s - %(processName)s %(threadName)s'
-# logger.setLevel(logging.INFO)
-formatter = logging.Formatter(SIMPLE_LOG_FORMAT)
-console_handler = logging.StreamHandler(sys.stdout)
-console_handler.setFormatter(formatter)
-logger.addHandler(console_handler)
+# SIMPLE_LOG_FORMAT = '[%(asctime)s] {%(filename)s:%(lineno)d} %(levelname)s - %(message)s - %(processName)s %(threadName)s'
+
+logger.setLevel(logging.DEBUG)
+# create console handler and set level to debug
+ch = logging.FileHandler(filename=".//logs//all_log_actions.log", mode="a")
+ch.setLevel(logging.DEBUG)
+# create formatter
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# add formatter to ch
+ch.setFormatter(formatter)
+# add ch to logger
+logger.addHandler(ch)
+logger.debug(f"START NEW SESSION. DATE: {datetime.now()}")
+
+# formatter = logging.Formatter(SIMPLE_LOG_FORMAT)
+# console_handler = logging.StreamHandler(sys.stdout)
+# console_handler.setFormatter(formatter)
+# logger.addHandler(console_handler)
 
 # logger.debug(os.getcwd())
 
